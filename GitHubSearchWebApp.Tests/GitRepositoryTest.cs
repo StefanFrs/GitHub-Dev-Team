@@ -46,8 +46,8 @@ namespace GitHubSearchWebApp.Tests
             var output = controller.ConvertServerContentToGitRepositories(content);
             // Assert
             var gitOwner = ((GitRepository[])output)[0];
-            Assert.Equal("jnewland", gitOwner.Owner.Username);
-            Assert.Equal("https://avatars.githubusercontent.com/u/47?v=4", gitOwner.Owner.AvatarUrl);
+            Assert.Equal("jnewland", gitOwner.Username);
+            Assert.Equal("https://avatars.githubusercontent.com/u/47?v=4", gitOwner.AvatarUrl);
         }
         [Fact]
         public void ConvertResponseToToGitRepositoriesIdTest()
