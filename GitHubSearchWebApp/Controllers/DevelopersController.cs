@@ -24,6 +24,8 @@ namespace DevsWebApp.Controllers
             _context = context;
         }
 
+        /// <summary>Gets all instances of developers.</summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet("allDevelopers")]
         public async Task<IActionResult> Get()
         {
