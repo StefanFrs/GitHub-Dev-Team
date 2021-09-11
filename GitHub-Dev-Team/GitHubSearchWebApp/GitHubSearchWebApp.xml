@@ -9,7 +9,7 @@
               <br />
             </summary>
         </member>
-        <member name="M:GitHubSearchWebApp.Controllers.DevelopersController.#ctor(DevsWebApp.Data.ApplicationDbContext)">
+        <member name="M:GitHubSearchWebApp.Controllers.DevelopersController.#ctor(GitHubSearchWebApp.Data.ApplicationDbContext)">
             <summary>Initializes a new instance of the <see cref="T:GitHubSearchWebApp.Controllers.DevelopersController" /> class.</summary>
             <param name="context">The context.</param>
         </member>
@@ -71,6 +71,12 @@
             <returns>
               <br />
             </returns>
+        </member>
+        <member name="M:GitHubSearchWebApp.Controllers.ExperiencesController.Get(System.String,System.String)">
+            <summary>Gets the projects of specified github login developer by language.</summary>
+            <param name="githubLoginDeveloper">The github login developer.</param>
+            <param name="programmingLanguage">The programming language.</param>
+            <returns>Enumerable of projects.<br /></returns>
         </member>
         <member name="M:GitHubSearchWebApp.Controllers.ExperiencesController.Get(System.String)">
             <summary>Gets the programming languages of specified github login developer.</summary>
@@ -160,14 +166,14 @@
         <member name="M:GitHubSearchWebApp.Services.ExperiencesService.#ctor">
             <summary>Initializes a new instance of the <see cref="T:GitHubSearchWebApp.Services.ExperiencesService" /> class.</summary>
         </member>
-        <member name="M:GitHubSearchWebApp.Services.ExperiencesService.GetProjectsByLanguage(System.String,System.String)">
+        <member name="M:GitHubSearchWebApp.Services.ExperiencesService.GetProjectsByDeveloperByLanguage(System.String,System.String)">
             <summary>Gets the experience by language.</summary>
             <param name="githubLoginDeveloper">The github login developer.</param>
             <returns>
               <br />
             </returns>
         </member>
-        <member name="M:GitHubSearchWebApp.Services.ExperiencesService.GetProgrammingLanguages(System.String)">
+        <member name="M:GitHubSearchWebApp.Services.ExperiencesService.GetProgrammingLanguagesByDeveloper(System.String)">
             <summary>Gets the programming languages.</summary>
             <param name="githubLoginDeveloper">The github login developer.</param>
             <returns>
@@ -185,6 +191,12 @@
             <returns>
               <para>enumerable of projects<br /></para>
             </returns>
+        </member>
+        <member name="M:GitHubSearchWebApp.Services.ExperiencesService.GetCodeSizeByDeveloperByLanguage(System.String,System.String)">
+            <summary>Gets the code size of experience by developer and by language.</summary>
+            <param name="githubLoginDeveloper">The github login developer.</param>
+            <param name="programmingLanguage">The programming language.</param>
+            <returns>The code size as long.<br /></returns>
         </member>
     </members>
 </doc>
