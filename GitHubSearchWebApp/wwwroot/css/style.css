@@ -45,6 +45,45 @@ p {
   transform: translateY(2px);
 }
 
+/* Main PAGE */
+
+@media screen and (min-width: 850px) {
+  .user-card{
+    width: auto;
+  }
+}
+
+.user-card{
+  width: auto;
+}
+ hr.card-hr{
+  border:1px solid white;
+}
+
+ .user-card h3{
+  color: white;
+}
+.user-card p{
+color:#cccccc;
+}
+
+.git-account-image img{
+  width: 25px;
+  height: 25px;
+}
+
+.dot{
+  width: 15px;
+  height: 15px;
+  background: red;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 50%;
+}
+.button-view{
+  padding: .35rem 2rem;
+  border: #cccccc;
+}
 
 
 /* 404 PAGE */
