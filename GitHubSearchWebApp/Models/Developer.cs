@@ -14,5 +14,7 @@ namespace GitHubSearchWebApp.Models
         public string GitLogin { get; set; }
 
         public string Email { get; set; }
+
+        public ICollection<Experience> Experiences { get; set; }
     }
 }

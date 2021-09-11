@@ -14,5 +14,7 @@ namespace DevsWebApp.Data
         {
         }
         public DbSet<GitHubSearchWebApp.Models.Developer> Developer { get; set; }
+
+        public DbSet<GitHubSearchWebApp.Models.Experience> Experience { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DevsWebApp.Migrations
+namespace GitHubSearchWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -19,7 +19,7 @@ namespace DevsWebApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DevsWebApp.Models.Developer", b =>
+            modelBuilder.Entity("GitHubSearchWebApp.Models.Developer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,6 +38,29 @@ namespace DevsWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Developer");
+                });
+
+            modelBuilder.Entity("GitHubSearchWebApp.Models.Experience", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodeSize")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DeveloperId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeveloperId");
+
+                    b.ToTable("Experience");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -240,6 +263,15 @@ namespace DevsWebApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("GitHubSearchWebApp.Models.Experience", b =>
+                {
+                    b.HasOne("GitHubSearchWebApp.Models.Developer", null)
+                        .WithMany("Experiences")
+                        .HasForeignKey("DeveloperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -289,6 +321,11 @@ namespace DevsWebApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GitHubSearchWebApp.Models.Developer", b =>
+                {
+                    b.Navigation("Experiences");
                 });
 #pragma warning restore 612, 618
         }

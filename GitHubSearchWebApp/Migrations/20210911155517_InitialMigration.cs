@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DevsWebApp.Migrations
+namespace GitHubSearchWebApp.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -167,6 +167,27 @@ namespace DevsWebApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Experience",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CodeSize = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeveloperId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Experience", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Experience_Developer_DeveloperId",
+                        column: x => x.DeveloperId,
+                        principalTable: "Developer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -205,6 +226,11 @@ namespace DevsWebApp.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Experience_DeveloperId",
+                table: "Experience",
+                column: "DeveloperId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -225,13 +251,16 @@ namespace DevsWebApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Developer");
+                name: "Experience");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Developer");
         }
     }
 }
