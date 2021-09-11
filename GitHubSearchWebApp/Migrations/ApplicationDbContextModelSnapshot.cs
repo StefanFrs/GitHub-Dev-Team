@@ -73,6 +73,9 @@ namespace GitHubSearchWebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CodeSize")
+                        .HasColumnType("bigint");
+
                     b.Property<int?>("ExperienceId")
                         .HasColumnType("int");
 

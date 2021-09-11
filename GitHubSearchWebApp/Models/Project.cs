@@ -21,5 +21,9 @@ namespace GitHubSearchWebApp.Models
         /// <summary>Gets or sets the URL.</summary>
         /// <value>The URL.</value>
         public string URL { get; set; }
+
+        /// <summary>Gets or sets the size of the code.</summary>
+        /// <value>The size of the code.</value>
+        public long CodeSize { get; set; }
     }
 }

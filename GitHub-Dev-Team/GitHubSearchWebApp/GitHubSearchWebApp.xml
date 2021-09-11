@@ -153,5 +153,9 @@
             <summary>Gets or sets the URL.</summary>
             <value>The URL.</value>
         </member>
+        <member name="P:GitHubSearchWebApp.Models.Project.CodeSize">
+            <summary>Gets or sets the size of the code.</summary>
+            <value>The size of the code.</value>
+        </member>
     </members>
 </doc>

@@ -197,6 +197,7 @@ namespace GitHubSearchWebApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CodeSize = table.Column<long>(type: "bigint", nullable: false),
                     ExperienceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
