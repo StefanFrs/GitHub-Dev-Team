@@ -1,0 +1,40 @@
+﻿@model DevsWebApp.Models.Developer
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="text-center display-4 my-4" style="color: #757575">Delete</h1>
+
+<h4 class="heading-4" style="color: #3e9eff;">Developer</h4>
+<hr style="border-color: #bdbdbd" />
+<div style="border: solid 1px #a02b2b; padding: 5%; border-radius: 5px;">
+    <h6 class="h6" style="color: #a02b2b;">Are you sure you want to delete this?</h6>
+    <dl class="row my-5">
+        <dt class="col-sm-2" style="color: #9e9e9e">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class="col-sm-10" style="background: #0d1117; border: solid 1px #616161; border-radius: 7px; color: #bdbdbd">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class="col-sm-2" style="color: #9e9e9e">
+            @Html.DisplayNameFor(model => model.GitLogin)
+        </dt>
+        <dd class="col-sm-10" style="background: #0d1117; border: solid 1px #616161; border-radius: 7px; color: #bdbdbd">
+            @Html.DisplayFor(model => model.GitLogin)
+        </dd>
+        <dt class="col-sm-2" style="color: #9e9e9e">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10" style="background: #0d1117; border: solid 1px #616161; border-radius: 7px; color: #bdbdbd">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+    <hr style="border-color: #bdbdbd" />
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-secondary" style="background: #21262d; border: solid 1px #bdbdbd; border-radius: 5px; color: #a02b2b" /> |
+        <a asp-action="Index" style="color: #3e9eff;">Back to List</a>
+    </form>
+</div>
