@@ -17,40 +17,28 @@
 </head>
 
 <body>
-    <div class="main-content">
-        <div class="google-logo d-flex justify-content-center">
-            <img src="images/GitHub-Emblem.png" id="account-img" alt="Account" />
-        </div>
-        <div class="search text-center">
-            <div class=" search-section d-flex justify-content-center align-items-center">
-                <img src="images/google-search.jpg" class="ml-3" id="search-logo" alt="Account" />
-                <input type="text" class="m-0 pl-3" id="search_bar" />
+    <header class="site-header d-flex justify-content-between">
+            <div class="left-side-header">
+                <h2>Development Team</h2>
             </div>
-            <input type="submit" class="mt-3 btn btn-dark" id="submitBtn">
-        </div>
-        <div class="text-center" id="spinner" style="display: none">
-            <div class="spinner-border" role="status" style="margin-top: 5%">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="list-group mt-5 mb-5 text-center" id="search-results-list">
-        
-    </div>
-
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="d-flex justify-content-xl-between justify-content-around flex-wrap last-row align-items-center">
-                <div class="left-column">
-                    <a href="https://github.com/site-map">Site Map</a>
-                    <a href="https://docs.github.com/en/github/site-policy/github-privacy-statement">Privacy</a>
-                    <a href="https://docs.github.com/en/github/site-policy/github-terms-of-service">Terms</a>
-                    <a href="https://github.com/git-guides">What is Git?</a>
+            <div class="right-side-header d-flex">
+                <div>
+                    <button type="button" class="btn btn-dark mr-3">Manage Team</button>
+                </div>
+                
+                <div>
+                    <form class="search">
+                        <input type="text" class="search__input" placeholder="Search">
+                    </form>
                 </div>
             </div>
-        </div>
-    </footer>
+    </header>
+
+    <div class="main-content">
+
+    </div>
+
+
     <script src="./lib/jquery/dist/jquery.min.js">
     </script>
     <script src="js/search.js"></script>
