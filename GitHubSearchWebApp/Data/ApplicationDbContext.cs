@@ -13,6 +13,6 @@ namespace DevsWebApp.Data
             : base(options)
         {
         }
-        public DbSet<DevsWebApp.Models.Developer> Developer { get; set; }
+        public DbSet<GitHubSearchWebApp.Models.Developer> Developer { get; set; }
     }
 }

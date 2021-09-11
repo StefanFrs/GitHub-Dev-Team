@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DevsWebApp.Data;
 using DevsWebApp.Models;
+using GitHubSearchWebApp.Models;
 
-namespace DevsWebApp.Controllers
+namespace GitHubSearchWebApp.Controllers
 {
     /// <summary>
     ///   <br />

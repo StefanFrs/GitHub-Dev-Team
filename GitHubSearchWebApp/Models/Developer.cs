@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevsWebApp.Models
+namespace GitHubSearchWebApp.Models
 {
     public class Developer
     {
