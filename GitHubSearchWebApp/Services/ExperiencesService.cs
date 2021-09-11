@@ -23,7 +23,7 @@ namespace GitHubSearchWebApp.Services
         /// <returns>
         ///   <br />
         /// </returns>
-        public IEnumerable<Project> GetProjectsByLanguage(string githubLoginDeveloper, string programmingLanguage)
+        public IEnumerable<Project> GetProjectsByDeveloperByLanguage(string githubLoginDeveloper, string programmingLanguage)
         {
             GetReposByUser(githubLoginDeveloper);
             return ConvertServerContentToProjectsByLanguage(programmingLanguage);
@@ -34,7 +34,7 @@ namespace GitHubSearchWebApp.Services
         /// <returns>
         ///   <br />
         /// </returns>
-        public ISet<ProgrammingLanguages> GetProgrammingLanguages(string githubLoginDeveloper)
+        public ISet<ProgrammingLanguages> GetProgrammingLanguagesByDeveloper(string githubLoginDeveloper)
         {
             GetReposByUser(githubLoginDeveloper);
 
@@ -105,18 +105,52 @@ namespace GitHubSearchWebApp.Services
             {
                 return new List<Project>();
             }
-            return Enumerable.Range(1, numberOfRepositories).Select(index =>
-            {
-                return new Project {
-                    Id = index,
-                    Name= developerRepositories[index - 1].Value<string>("full_name"),
-                    URL= developerRepositories[index-1].Value<string>("html_url"),
-                    CodeSize = developerRepositories[index - 1].Value<int>("size"),
-                };
-            })
-            .ToArray();
+
+            List<Project> projectsByLanguage = GetProjects(language, developerRepositories, numberOfRepositories);
+
+            return projectsByLanguage.ToArray();
 
         }
 
+        private static List<Project> GetProjects(string language, JArray developerRepositories, int numberOfRepositories)
+        {
+            List<Project> projectsByLanguage = new List<Project>();
+            for (int index = 1; index <= numberOfRepositories; index++)
+            {
+                var languageRepository = GetLanguage(index, developerRepositories);
+                JToken currentRepository = developerRepositories[index - 1];
+                if (languageRepository != null && languageRepository == language)
+                {
+                    projectsByLanguage.Add(new Project
+                    {
+                        Name = currentRepository.Value<string>("full_name"),
+                        URL = currentRepository.Value<string>("html_url"),
+                        CodeSize = currentRepository.Value<int>("size"),
+                    });
+                }
+            }
+
+            return projectsByLanguage;
+        }
+
+        private static string GetLanguage(int index, JArray developerRepositories)
+        {
+            string language = developerRepositories[index - 1].Value<string>("language");
+            if ( language != null)
+            {
+                language = language.Replace(" ", "").Replace("+", "Plus").Replace("#", "Sharp").Replace("-", "");
+            }
+            return language;
+        }
+
+        /// <summary>Gets the code size of experience by developer and by language.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <param name="programmingLanguage">The programming language.</param>
+        /// <returns>The code size as long.<br /></returns>
+        public long GetCodeSizeByDeveloperByLanguage(string githubLoginDeveloper, string programmingLanguage)
+        {
+            IEnumerable<Project> projects = GetProjectsByDeveloperByLanguage(githubLoginDeveloper, programmingLanguage);
+            return projects.ToArray().Sum(p => p.CodeSize);
+        }
     }
 }
