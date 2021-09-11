@@ -56,6 +56,22 @@ p {
 .user-card{
   width: auto;
 }
+/* Search page */
+* MAIN CONTENT */
+#search-logo{
+  width: 20px;
+  height: 20px;
+}
+
+@media screen and (min-width: 850px) {
+  .user-card{
+    width: auto;
+  }
+}
+
+.user-card{
+  width: auto;
+}
  hr.card-hr{
   border:1px solid white;
 }
