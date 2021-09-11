@@ -112,9 +112,39 @@
             <summary>Gets or sets the size of the code.</summary>
             <value>The size of the code.</value>
         </member>
+        <member name="P:GitHubSearchWebApp.Models.Experience.Projects">
+            <summary>Gets or sets the projects.</summary>
+            <value>The projects.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Experience.ProgrammingLanguage">
+            <summary>Gets or sets the programming language.</summary>
+            <value>The programming language.</value>
+        </member>
         <member name="P:GitHubSearchWebApp.Models.Experience.DeveloperId">
             <summary>Gets or sets the developer identifier.</summary>
             <value>The developer identifier.</value>
+        </member>
+        <member name="T:GitHubSearchWebApp.Models.ProgrammingLanguages">
+            <summary>
+              <para>Programming Languages.<br /></para>
+            </summary>
+        </member>
+        <member name="T:GitHubSearchWebApp.Models.Project">
+            <summary>
+              <br />
+            </summary>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Project.Id">
+            <summary>Gets or sets the identifier.</summary>
+            <value>The identifier.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Project.Name">
+            <summary>Gets or sets the name.</summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Project.URL">
+            <summary>Gets or sets the URL.</summary>
+            <value>The URL.</value>
         </member>
     </members>
 </doc>

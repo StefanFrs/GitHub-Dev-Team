@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GitHubSearchWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210911155517_InitialMigration")]
+    [Migration("20210911171236_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,11 +58,37 @@ namespace GitHubSearchWebApp.Migrations
                     b.Property<int>("DeveloperId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProgrammingLanguage")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DeveloperId");
 
                     b.ToTable("Experience");
+                });
+
+            modelBuilder.Entity("GitHubSearchWebApp.Models.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ExperienceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExperienceId");
+
+                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -274,6 +300,13 @@ namespace GitHubSearchWebApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GitHubSearchWebApp.Models.Project", b =>
+                {
+                    b.HasOne("GitHubSearchWebApp.Models.Experience", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("ExperienceId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -328,6 +361,11 @@ namespace GitHubSearchWebApp.Migrations
             modelBuilder.Entity("GitHubSearchWebApp.Models.Developer", b =>
                 {
                     b.Navigation("Experiences");
+                });
+
+            modelBuilder.Entity("GitHubSearchWebApp.Models.Experience", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }
