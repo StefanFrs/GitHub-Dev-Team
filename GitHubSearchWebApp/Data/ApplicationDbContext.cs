@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using DevsWebApp.Models;
 
-namespace DevsWebApp.Data
+namespace GitHubSearchWebApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
