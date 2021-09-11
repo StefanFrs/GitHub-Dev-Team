@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DevsWebApp.Data;
+using GitHubSearchWebApp.Data;
 using DevsWebApp.Models;
 using GitHubSearchWebApp.Models;
 
