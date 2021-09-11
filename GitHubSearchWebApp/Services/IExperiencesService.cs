@@ -8,7 +8,7 @@ namespace GitHubSearchWebApp.Services
 {
     interface IExperiencesService
     {
-        IEnumerable<Experience> Get(string githubLoginDeveloper);
+        IEnumerable<Project> GetProjectsByLanguage(string githubLoginDeveloper, string programmingLanguage);
 
         ISet<ProgrammingLanguages> GetProgrammingLanguages(string githubLoginDeveloper);
     }

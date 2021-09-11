@@ -22,10 +22,10 @@ namespace GitHubSearchWebApp.Controllers
         }
 
         // GET: api/<ExperiencesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("{githubLoginDeveloper}/{programmingLanguage}/")]
+        public IEnumerable<Project> Get(string githubLoginDeveloper, string programmingLanguage)
         {
-            return new string[] { "value1", "value2" };
+            return experiencesService.GetProjectsByLanguage(githubLoginDeveloper, programmingLanguage);
         }
 
         // GET api/<ExperiencesController>/5
@@ -34,7 +34,7 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
-        [HttpGet("{githubLoginDeveloper}")]
+        [HttpGet("programmingLanguages/{githubLoginDeveloper}")]
         public IEnumerable<string> Get(string githubLoginDeveloper)
         {
             ISet<ProgrammingLanguages> programmingLanguages = experiencesService.GetProgrammingLanguages(githubLoginDeveloper);
