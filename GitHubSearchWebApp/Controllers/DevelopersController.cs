@@ -10,22 +10,36 @@ using DevsWebApp.Models;
 
 namespace DevsWebApp.Controllers
 {
+    /// <summary>
+    ///   <br />
+    /// </summary>
     public class DevelopersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>Initializes a new instance of the <see cref="DevelopersController" /> class.</summary>
+        /// <param name="context">The context.</param>
         public DevelopersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: Developers
+        /// <summary>Indexes this instance.</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public async Task<IActionResult> Index()
         {
             return View(await _context.Developer.ToListAsync());
         }
 
         // GET: Developers/Details/5
+        /// <summary>Detailses the specified identifier.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +58,10 @@ namespace DevsWebApp.Controllers
         }
 
         // GET: Developers/Create
+        /// <summary>Creates this instance.</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public IActionResult Create()
         {
             return View();
@@ -52,6 +70,11 @@ namespace DevsWebApp.Controllers
         // POST: Developers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>Creates the specified developer.</summary>
+        /// <param name="developer">The developer.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FullName,GitLogin,Email")] Developer developer)
@@ -66,6 +89,11 @@ namespace DevsWebApp.Controllers
         }
 
         // GET: Developers/Edit/5
+        /// <summary>Edits the specified identifier.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,6 +112,12 @@ namespace DevsWebApp.Controllers
         // POST: Developers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>Edits the specified identifier.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="developer">The developer.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,GitLogin,Email")] Developer developer)
@@ -117,6 +151,11 @@ namespace DevsWebApp.Controllers
         }
 
         // GET: Developers/Delete/5
+        /// <summary>Deletes the specified identifier.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +174,11 @@ namespace DevsWebApp.Controllers
         }
 
         // POST: Developers/Delete/5
+        /// <summary>Deletes the confirmed.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
