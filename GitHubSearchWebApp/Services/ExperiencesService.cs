@@ -10,11 +10,24 @@ namespace GitHubSearchWebApp.Services
 {
     public class ExperiencesService : IExperiencesService
     {
+        private JArray developerRepositories;
+
+        /// <summary>Initializes a new instance of the <see cref="ExperiencesService" /> class.</summary>
+        public ExperiencesService()
+        {
+            this.developerRepositories = new JArray();
+        }
+
         public IEnumerable<Experience> Get(string githubLoginDeveloper)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Gets the programming languages.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public ISet<ProgrammingLanguages> GetProgrammingLanguages(string githubLoginDeveloper)
         {
             string content = GetReposByUser(githubLoginDeveloper);
@@ -51,11 +64,14 @@ namespace GitHubSearchWebApp.Services
                                             
         }
 
+        /// <summary>Converts the server content to programming languages.</summary>
+        /// <param name="contentfromServer">The contentfrom server.</param>
+        /// <returns>programming languages enumerable<br /></returns>
         public IEnumerable<string> ConvertServerContentToProgrammingLanguages(string contentfromServer)
         {
-            var searchResultJson = JArray.Parse(contentfromServer);
+            developerRepositories = JArray.Parse(contentfromServer);
 
-            int numberOfRepositories = searchResultJson.Count;
+            int numberOfRepositories = developerRepositories.Count;
             if (numberOfRepositories == 0)
             {
                 return new List<string>();
@@ -64,7 +80,7 @@ namespace GitHubSearchWebApp.Services
             
             return Enumerable.Range(1, numberOfRepositories).Select(index =>
             {
-                return searchResultJson[index - 1].Value<string>("language");
+                return developerRepositories[index - 1].Value<string>("language");
             })
             .ToArray();
         }
