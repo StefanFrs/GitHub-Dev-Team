@@ -24,6 +24,12 @@ namespace DevsWebApp.Controllers
             _context = context;
         }
 
+        [HttpGet("allDevelopers")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _context.Developer.ToListAsync());
+        }
+
         // GET: Developers
         /// <summary>Indexes this instance.</summary>
         /// <returns>
