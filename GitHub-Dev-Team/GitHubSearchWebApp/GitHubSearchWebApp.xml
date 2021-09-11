@@ -74,7 +74,7 @@
         </member>
         <member name="T:GitHubSearchWebApp.Models.Developer">
             <summary>
-              <br />
+             Developer.<br />
             </summary>
         </member>
         <member name="P:GitHubSearchWebApp.Models.Developer.Id">
