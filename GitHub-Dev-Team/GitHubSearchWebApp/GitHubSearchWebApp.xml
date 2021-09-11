@@ -72,5 +72,49 @@
               <br />
             </returns>
         </member>
+        <member name="T:GitHubSearchWebApp.Models.Developer">
+            <summary>
+              <br />
+            </summary>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Developer.Id">
+            <summary>Gets or sets the identifier.</summary>
+            <value>The identifier.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Developer.FullName">
+            <summary>Gets or sets the full name.</summary>
+            <value>The full name.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Developer.GitLogin">
+            <summary>Gets or sets the git login.</summary>
+            <value>The git login.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Developer.Email">
+            <summary>Gets or sets the email.</summary>
+            <value>The email.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Developer.Experiences">
+            <summary>Gets or sets the experiences.</summary>
+            <value>The experiences.</value>
+        </member>
+        <member name="T:GitHubSearchWebApp.Models.Experience">
+            <summary>Experience.<br /></summary>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Experience.Id">
+            <summary>Gets or sets the identifier.</summary>
+            <value>The identifier.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Experience.Description">
+            <summary>Gets or sets the description.</summary>
+            <value>The description.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Experience.CodeSize">
+            <summary>Gets or sets the size of the code.</summary>
+            <value>The size of the code.</value>
+        </member>
+        <member name="P:GitHubSearchWebApp.Models.Experience.DeveloperId">
+            <summary>Gets or sets the developer identifier.</summary>
+            <value>The developer identifier.</value>
+        </member>
     </members>
 </doc>

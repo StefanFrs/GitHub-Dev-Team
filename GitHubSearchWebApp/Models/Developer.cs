@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace GitHubSearchWebApp.Models
 {
     /// <summary>
-    ///   <br />
+    ///  Developer.<br />
     /// </summary>
     public class Developer
     {

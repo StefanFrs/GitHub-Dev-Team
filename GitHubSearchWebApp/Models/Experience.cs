@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace GitHubSearchWebApp.Models
 {
-    /// <summary>
-    ///   <br />
-    /// </summary>
+    /// <summary>Experience.<br /></summary>
     public class Experience
     {
         /// <summary>Gets or sets the identifier.</summary>
