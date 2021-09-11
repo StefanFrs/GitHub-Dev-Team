@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GitHubSearchWebApp</name>
+    </assembly>
+    <members>
+        <member name="T:DevsWebApp.Controllers.DevelopersController">
+            <summary>
+              <br />
+            </summary>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.#ctor(DevsWebApp.Data.ApplicationDbContext)">
+            <summary>Initializes a new instance of the <see cref="T:DevsWebApp.Controllers.DevelopersController" /> class.</summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.Index">
+            <summary>Indexes this instance.</summary>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.Details(System.Nullable{System.Int32})">
+            <summary>Detailses the specified identifier.</summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.Create">
+            <summary>Creates this instance.</summary>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.Create(DevsWebApp.Models.Developer)">
+            <summary>Creates the specified developer.</summary>
+            <param name="developer">The developer.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.Edit(System.Nullable{System.Int32})">
+            <summary>Edits the specified identifier.</summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.Edit(System.Int32,DevsWebApp.Models.Developer)">
+            <summary>Edits the specified identifier.</summary>
+            <param name="id">The identifier.</param>
+            <param name="developer">The developer.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.Delete(System.Nullable{System.Int32})">
+            <summary>Deletes the specified identifier.</summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:DevsWebApp.Controllers.DevelopersController.DeleteConfirmed(System.Int32)">
+            <summary>Deletes the confirmed.</summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
+    </members>
+</doc>
