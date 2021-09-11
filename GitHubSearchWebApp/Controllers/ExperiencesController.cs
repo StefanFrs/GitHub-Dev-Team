@@ -1,4 +1,5 @@
-﻿using GitHubSearchWebApp.Services;
+﻿using GitHubSearchWebApp.Models;
+using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -34,9 +35,10 @@ namespace GitHubSearchWebApp.Controllers
         ///   <br />
         /// </returns>
         [HttpGet("{githubLoginDeveloper}")]
-        public ISet<string> Get(string githubLoginDeveloper)
+        public IEnumerable<string> Get(string githubLoginDeveloper)
         {
-            return experiencesService.GetProgrammingLanguages(githubLoginDeveloper);
+            ISet<ProgrammingLanguages> programmingLanguages = experiencesService.GetProgrammingLanguages(githubLoginDeveloper);
+            return programmingLanguages.ToList().Select( l => l.ToString());
         }
 
         // POST api/<ExperiencesController>

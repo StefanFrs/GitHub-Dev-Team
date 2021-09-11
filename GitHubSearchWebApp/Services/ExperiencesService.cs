@@ -15,17 +15,22 @@ namespace GitHubSearchWebApp.Services
             throw new NotImplementedException();
         }
 
-        public ISet<string> GetProgrammingLanguages(string githubLoginDeveloper)
+        public ISet<ProgrammingLanguages> GetProgrammingLanguages(string githubLoginDeveloper)
         {
             string content = GetReposByUser(githubLoginDeveloper);
-            List<string> programmingLanguages = GetNonNullLanguagesList(content);
+            List<ProgrammingLanguages> programmingLanguages = GetNonNullLanguagesList(content).ToList();
 
-            return new HashSet<string>(programmingLanguages);
+            return new HashSet<ProgrammingLanguages>(programmingLanguages);
         }
 
-        private List<string> GetNonNullLanguagesList(string content)
+        private IEnumerable<ProgrammingLanguages> GetNonNullLanguagesList(string content)
         {
-            return ConvertServerContentToProgrammingLanguages(content).ToList().FindAll(l => l != null);
+            return ConvertServerContentToProgrammingLanguages(content).ToList().FindAll(l => l != null).Select(l => GetProgrammingLaguageFromString(l));
+        }
+
+        private static ProgrammingLanguages GetProgrammingLaguageFromString(string l)
+        {
+            return (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), l.Replace(" ", "").Replace("+", "Plus").Replace("#", "Sharp").Replace("-", ""));
         }
 
         private string GetReposByUser(string githubLoginDeveloper)

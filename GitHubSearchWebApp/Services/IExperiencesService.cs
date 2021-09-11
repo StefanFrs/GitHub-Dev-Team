@@ -10,6 +10,6 @@ namespace GitHubSearchWebApp.Services
     {
         IEnumerable<Experience> Get(string githubLoginDeveloper);
 
-        ISet<string> GetProgrammingLanguages(string githubLoginDeveloper);
+        ISet<ProgrammingLanguages> GetProgrammingLanguages(string githubLoginDeveloper);
     }
 }
