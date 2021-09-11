@@ -52,130 +52,44 @@ p {
   height: 20px;
 }
 
-.google-logo {
-  /* margin-top:calc(5px + (200 - 5) * ((100vh - 650px) / (1080 - 650))); */
-   margin-top: 101px; 
-}
-.google-logo img{
-  width: 500px;
-  height: 250px;
-  object-fit: contain;
-}
-.search-section:hover {
-  background-color: #fff;
-  box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
-  border-color: rgba(223, 225, 229, 0);
-}
-.search-section {
-  background: #fff;
-  border: 1px solid #dfe1e5;
-  box-shadow: none;
-  border-radius: 24px;
-  z-index: 3;
-  height: 44px;
-  margin: 0 auto;
-  width: 580px;
-}
-
-.search-section img {
-  height: 24px;
-  width: 24px;
-}
-
-.search-section input {
-  background-color: transparent;
-  border: none;
-  margin: 0;
-  padding: 0;
-  color: rgba(0, 0, 0, 0.87);
-  word-wrap: break-word;
-  outline: none;
-  display: flex;
-  flex: 100%;
-  -webkit-tap-highlight-color: transparent;
-  margin-top: -37px;
-  height: 34px;
-  font-size: 16px;
-}
-.buttons-under-search a {
-  background-color: #f8f9fa;
-  border: 1px solid #f8f9fa;
-  border-radius: 4px;
-  color: #3c4043;
-  font-family: arial, sans-serif;
-  font-size: 14px;
-  margin: 11px 4px;
-  padding: 4px 16px;
-  line-height: 27px;
-  height: 36px;
-  min-width: 54px;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
-}
-.buttons-under-search a:hover {
-  box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
-  background-color: #f8f9fa;
-  border: 1px solid #dadce0;
-  color: #202124;
-}
-
-.buttons-under-search a:focus {
-  border: 1px solid #4285f4;
-  outline: none;
-}
-.offered p {
-  font-size: 13px;
-  color: #3c4043;
-  display: inline-block;
-  line-height: 28px;
-}
-.offered a {
-  color: #1a0dab;
-  font-size: 13px;
-  text-decoration: none;
-  padding: 0 3px;
-}
-.offered a:hover {
-  text-decoration: underline;
-}
-.dropdown-custom {
-  border-color: black;
-  border-radius: 0;
-}
-.dropdown-item.active,
-.dropdown-item:active {
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.icons-media img{
-  width: 20px;
-  height: 20px;
-}
-
-/* MEDIA QUERY */
-
-@media only screen and (max-width: 630px) {
-  .search-section {
+@media screen and (min-width: 850px) {
+  .user-card{
     width: auto;
   }
-  .google-logo img{
-    width: 350px;
-    height: 200px;
-    object-fit: contain;
-  }
-}
-@media only screen and (max-height: 650px) {
-  .google-logo {
-    margin-top: 0px;
-  }
-  
 }
 
+.user-card{
+  width: auto;
+}
+ hr.card-hr{
+  border:1px solid white;
+}
 
+ .user-card h3{
+  color: white;
+}
+.user-card p{
+color:#cccccc;
+}
 
+.git-account-image img{
+  width: 25px;
+  height: 25px;
+}
+
+.dot{
+  width: 15px;
+  height: 15px;
+  background: red;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 50%;
+}
+
+.button-view{
+  padding: .35rem 2rem;
+  border: #cccccc;
+}
 
 
 /* 404 PAGE */
