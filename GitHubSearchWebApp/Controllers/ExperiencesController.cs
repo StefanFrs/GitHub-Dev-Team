@@ -28,6 +28,11 @@ namespace GitHubSearchWebApp.Controllers
         }
 
         // GET api/<ExperiencesController>/5
+        /// <summary>Gets the programming languages of specified github login developer.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpGet("{githubLoginDeveloper}")]
         public ISet<string> Get(string githubLoginDeveloper)
         {

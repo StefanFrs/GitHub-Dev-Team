@@ -72,6 +72,13 @@
               <br />
             </returns>
         </member>
+        <member name="M:GitHubSearchWebApp.Controllers.ExperiencesController.Get(System.String)">
+            <summary>Gets the programming languages of specified github login developer.</summary>
+            <param name="githubLoginDeveloper">The github login developer.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
         <member name="T:GitHubSearchWebApp.Models.Developer">
             <summary>
              Developer.<br />
