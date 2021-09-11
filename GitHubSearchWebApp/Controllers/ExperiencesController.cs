@@ -1,6 +1,8 @@
-﻿using GitHubSearchWebApp.Models;
+﻿using GitHubSearchWebApp.Data;
+using GitHubSearchWebApp.Models;
 using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,21 +16,28 @@ namespace GitHubSearchWebApp.Controllers
     [ApiController]
     public class ExperiencesController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
         private IExperiencesService experiencesService;
+        private DevelopersController developersController;
 
-        public ExperiencesController()
+        public ExperiencesController(ApplicationDbContext context)
         {
+            _context = context;
             experiencesService = new ExperiencesService();
         }
 
-        // GET: api/<ExperiencesController>
+        // GET: api/<ExperiencesController>/user/language
+        /// <summary>Gets the projects of specified github login developer by language.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <param name="programmingLanguage">The programming language.</param>
+        /// <returns>Enumerable of projects.<br /></returns>
         [HttpGet("{githubLoginDeveloper}/{programmingLanguage}/")]
         public IEnumerable<Project> Get(string githubLoginDeveloper, string programmingLanguage)
         {
-            return experiencesService.GetProjectsByLanguage(githubLoginDeveloper, programmingLanguage);
+            return experiencesService.GetProjectsByDeveloperByLanguage(githubLoginDeveloper, programmingLanguage);
         }
 
-        // GET api/<ExperiencesController>/5
+        // GET api/<ExperiencesController>/programmingLanguages/user
         /// <summary>Gets the programming languages of specified github login developer.</summary>
         /// <param name="githubLoginDeveloper">The github login developer.</param>
         /// <returns>
@@ -37,19 +46,32 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("programmingLanguages/{githubLoginDeveloper}")]
         public IEnumerable<string> Get(string githubLoginDeveloper)
         {
-            ISet<ProgrammingLanguages> programmingLanguages = experiencesService.GetProgrammingLanguages(githubLoginDeveloper);
+            ISet<ProgrammingLanguages> programmingLanguages = experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
             return programmingLanguages.ToList().Select( l => l.ToString());
         }
 
         // POST api/<ExperiencesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> PostAsync([FromBody] Experience experience)
         {
+            await SetExperienceCodeSizeAndProjects(experience);
+            _context.Add(experience);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        private async Task SetExperienceCodeSizeAndProjects(Experience experience)
+        {
+            Developer developer = await _context.Developer.FirstOrDefaultAsync(m => m.Id == experience.DeveloperId);
+            IEnumerable<Project> projects = experiencesService.GetProjectsByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
+            long codeSize = experiencesService.GetCodeSizeByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
+            experience.CodeSize = codeSize.ToString();
+            experience.Projects = projects.ToList();
         }
 
         // PUT api/<ExperiencesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Experience value)
         {
         }
 
