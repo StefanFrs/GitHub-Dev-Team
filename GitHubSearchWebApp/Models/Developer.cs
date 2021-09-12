@@ -26,6 +26,10 @@ namespace GitHubSearchWebApp.Models
         /// <value>The email.</value>
         public string Email { get; set; }
 
+        /// <summary>Gets or sets the avatar URL.</summary>
+        /// <value>The avatar URL.</value>
+        public string AvatarURL { get; set; }
+
         /// <summary>Gets or sets the experiences.</summary>
         /// <value>The experiences.</value>
         public ICollection<Experience> Experiences { get; set; }

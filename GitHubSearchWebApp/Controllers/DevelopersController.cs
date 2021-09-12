@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GitHubSearchWebApp.Data;
 using DevsWebApp.Models;
 using GitHubSearchWebApp.Models;
+using GitHubSearchWebApp.Services;
 
 namespace GitHubSearchWebApp.Controllers
 {
@@ -18,12 +19,15 @@ namespace GitHubSearchWebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         ExperiencesController experiencesController;
+        private IDevelopersService developersService;
+
 
         /// <summary>Initializes a new instance of the <see cref="DevelopersController" /> class.</summary>
         /// <param name="context">The context.</param>
         public DevelopersController(ApplicationDbContext context)
         {
             _context = context;
+            developersService = new DevelopersService();
             experiencesController = new ExperiencesController(_context);
         }
 
@@ -33,6 +37,49 @@ namespace GitHubSearchWebApp.Controllers
         public async Task<IActionResult> Get()
         {
             return Ok(await _context.Developer.ToListAsync());
+        }
+
+        /// <summary>Gets the repo count for specified developer identifier.</summary>
+        /// <param name="developerId">The developer identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        [HttpGet("developer/repoCount/{developerId}")]
+        public async Task<IActionResult> Get(int developerId)
+        {
+            var developer = await GetDeveloper(developerId);
+            int numberOfRepos = await GetNumberOfRepos(developer);
+            return Ok(numberOfRepos);
+        }
+
+        private async Task<int> GetNumberOfRepos(Developer developer)
+        {
+            int numberOfRepos = 0;
+            foreach (var experience in developer.Experiences)
+            {
+                var experienceWithProjects = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.Id == experience.Id);
+                numberOfRepos += experienceWithProjects.Projects.Count;
+            }
+
+            return numberOfRepos;
+        }
+
+        [HttpGet("developer/codeSize/{developerId}/{language}")]
+        public async Task<IActionResult> Get(int developerId, string language)
+        {
+            var developer = await GetDeveloper(developerId);
+            ProgrammingLanguages programmingLanguage = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), language);
+            return base.Ok(GetCodeSizeByLanguage(developer, programmingLanguage));
+        }
+
+        private static long GetCodeSizeByLanguage(Developer developer, ProgrammingLanguages programmingLanguage)
+        {
+            return developer.Experiences.ToList().FindAll(e => e.ProgrammingLanguage == programmingLanguage).Sum(e => Convert.ToInt64(e.CodeSize));
+        }
+
+        private async Task<Developer> GetDeveloper(int developerId)
+        {
+            return await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.Id == developerId);
         }
 
         // GET: Developers
@@ -115,7 +162,9 @@ namespace GitHubSearchWebApp.Controllers
                 await experiencesController.PostAsync(experience);
             }
             developer.Experiences = experiences;
+            developer.AvatarURL = developersService.GetDeveloperAvatarURL(developer.GitLogin);
             _context.Update(developer);
+            await _context.SaveChangesAsync();
         }
 
         // GET: Developers/Edit/5

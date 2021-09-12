@@ -66,6 +66,7 @@ namespace GitHubSearchWebApp.Services
         private static IRestRequest FormRequest(string githubLoginDeveloper)
         {
             return new RestRequest("https://api.github.com/users/{user}/repos", Method.GET)
+                                            .AddHeader("Authorization", "Bearer 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")
                                             .AddUrlSegment("user", githubLoginDeveloper)
                                             .AddParameter("type", "all");
                                             
