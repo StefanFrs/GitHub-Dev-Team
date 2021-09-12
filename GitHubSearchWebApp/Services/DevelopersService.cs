@@ -29,7 +29,7 @@ namespace GitHubSearchWebApp.Services
         private static IRestRequest FormRequest(string githubLoginDeveloper)
         {
             return new RestRequest("https://api.github.com/users/{user}", Method.GET)
-                                            .AddHeader("Authorization", "Bearer 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")
+                                            .AddHeader("Authorization", "Bearer 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")
                                             .AddUrlSegment("user", githubLoginDeveloper);
         }
 
