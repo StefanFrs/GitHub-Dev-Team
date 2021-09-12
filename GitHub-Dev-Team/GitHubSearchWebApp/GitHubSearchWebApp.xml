@@ -106,6 +106,10 @@
             <summary>Gets or sets the email.</summary>
             <value>The email.</value>
         </member>
+        <member name="P:GitHubSearchWebApp.Models.Developer.AvatarURL">
+            <summary>Gets or sets the avatar URL.</summary>
+            <value>The avatar URL.</value>
+        </member>
         <member name="P:GitHubSearchWebApp.Models.Developer.Experiences">
             <summary>Gets or sets the experiences.</summary>
             <value>The experiences.</value>
@@ -162,6 +166,16 @@
         <member name="P:GitHubSearchWebApp.Models.Project.CodeSize">
             <summary>Gets or sets the size of the code.</summary>
             <value>The size of the code.</value>
+        </member>
+        <member name="M:GitHubSearchWebApp.Services.DevelopersService.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:GitHubSearchWebApp.Services.ExperiencesService" /> class.</summary>
+        </member>
+        <member name="M:GitHubSearchWebApp.Services.DevelopersService.GetDeveloperAvatarURL(System.String)">
+            <summary>Gets the developer avatar URL.</summary>
+            <param name="githubLoginDeveloper">The github login developer.</param>
+            <returns>
+              <para>String.</para>
+            </returns>
         </member>
         <member name="M:GitHubSearchWebApp.Services.ExperiencesService.#ctor">
             <summary>Initializes a new instance of the <see cref="T:GitHubSearchWebApp.Services.ExperiencesService" /> class.</summary>

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GitHubSearchWebApp.Data;
 using DevsWebApp.Models;
 using GitHubSearchWebApp.Models;
+using GitHubSearchWebApp.Services;
 
 namespace GitHubSearchWebApp.Controllers
 {
@@ -18,12 +19,15 @@ namespace GitHubSearchWebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         ExperiencesController experiencesController;
+        private IDevelopersService developersService;
+
 
         /// <summary>Initializes a new instance of the <see cref="DevelopersController" /> class.</summary>
         /// <param name="context">The context.</param>
         public DevelopersController(ApplicationDbContext context)
         {
             _context = context;
+            developersService = new DevelopersService();
             experiencesController = new ExperiencesController(_context);
         }
 
@@ -115,7 +119,9 @@ namespace GitHubSearchWebApp.Controllers
                 await experiencesController.PostAsync(experience);
             }
             developer.Experiences = experiences;
+            developer.AvatarURL = developersService.GetDeveloperAvatarURL(developer.GitLogin);
             _context.Update(developer);
+            await _context.SaveChangesAsync();
         }
 
         // GET: Developers/Edit/5
