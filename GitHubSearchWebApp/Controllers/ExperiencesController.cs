@@ -44,10 +44,9 @@ namespace GitHubSearchWebApp.Controllers
         ///   <br />
         /// </returns>
         [HttpGet("programmingLanguages/{githubLoginDeveloper}")]
-        public IEnumerable<string> Get(string githubLoginDeveloper)
+        public ISet<ProgrammingLanguages> Get(string githubLoginDeveloper)
         {
-            ISet<ProgrammingLanguages> programmingLanguages = experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
-            return programmingLanguages.ToList().Select( l => l.ToString());
+            return experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
         }
 
         // POST api/<ExperiencesController>
