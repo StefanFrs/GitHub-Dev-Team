@@ -31,15 +31,10 @@ namespace GitHubSearchWebApp.Controllers
         /// <param name="githubLoginDeveloper">The github login developer.</param>
         /// <param name="programmingLanguage">The programming language.</param>
         /// <returns>Enumerable of projects.<br /></returns>
-        [HttpGet("{githubLoginDeveloper}/{programmingLanguage}")]
-        public async Task<IActionResult> Get(string githubLoginDeveloper, string programmingLanguage)
+        [HttpGet("{githubLoginDeveloper}/{programmingLanguage}/")]
+        public IEnumerable<Project> Get(string githubLoginDeveloper, string programmingLanguage)
         {
-            var developer = await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.GitLogin == githubLoginDeveloper);
-            ProgrammingLanguages language = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), programmingLanguage);
-
-            var experienceInProgrammingLanguage = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.ProgrammingLanguage == language && e.DeveloperId == developer.Id);
-
-            return Ok(experienceInProgrammingLanguage.Projects);
+            return experiencesService.GetProjectsByDeveloperByLanguage(githubLoginDeveloper, programmingLanguage);
         }
 
         // GET api/<ExperiencesController>/programmingLanguages/user
