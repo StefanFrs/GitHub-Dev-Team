@@ -75,15 +75,22 @@ namespace GitHubSearchWebApp.Controllers
         }
 
         // PUT api/<ExperiencesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Experience value)
+        [HttpPut("{githubLoginDeveloper}/{programmingLanguage}")]
+        public async Task<IActionResult> Put(string githubLoginDeveloper, string programmingLanguage, [FromBody] string description)
         {
+            Experience experienceToUpdate = await GetExperienceToUpdate(githubLoginDeveloper, programmingLanguage, description);
+            _context.Update(experienceToUpdate);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
-        // DELETE api/<ExperiencesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        private async Task<Experience> GetExperienceToUpdate(string githubLoginDeveloper, string programmingLanguage, string description)
         {
+            var developer = await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.GitLogin == githubLoginDeveloper);
+            ProgrammingLanguages language = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), programmingLanguage);
+            var experienceToUpdate = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.ProgrammingLanguage == language && e.DeveloperId == developer.Id);
+            experienceToUpdate.Description += "\n" + description;
+            return experienceToUpdate;
         }
     }
 }
