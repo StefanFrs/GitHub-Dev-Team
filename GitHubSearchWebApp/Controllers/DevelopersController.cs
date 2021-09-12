@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DevsWebApp.Data;
+using GitHubSearchWebApp.Data;
 using DevsWebApp.Models;
 using GitHubSearchWebApp.Models;
 
@@ -17,12 +17,14 @@ namespace GitHubSearchWebApp.Controllers
     public class DevelopersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        ExperiencesController experiencesController;
 
         /// <summary>Initializes a new instance of the <see cref="DevelopersController" /> class.</summary>
         /// <param name="context">The context.</param>
         public DevelopersController(ApplicationDbContext context)
         {
             _context = context;
+            experiencesController = new ExperiencesController(_context);
         }
 
         /// <summary>Gets all instances of developers.</summary>
@@ -90,11 +92,30 @@ namespace GitHubSearchWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(developer);
+                Developer developerJustAdded = _context.Add(developer).Entity;
                 await _context.SaveChangesAsync();
+                await AddDeveloperExperience(developer);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(developer);
+        }
+
+        private async Task AddDeveloperExperience(Developer developer)
+        {
+            ISet<ProgrammingLanguages> programmingLanguagesDeveloper = experiencesController.Get(developer.GitLogin);
+            List<Experience> experiences = new List<Experience>();
+            foreach (var programmingLanguage in programmingLanguagesDeveloper)
+            {
+                Experience experience = new Experience();
+                experience.Description = "";
+                experience.ProgrammingLanguage = programmingLanguage;
+                experience.DeveloperId = developer.Id;
+                experiences.Add(experience);
+                await experiencesController.PostAsync(experience);
+            }
+            developer.Experiences = experiences;
+            _context.Update(developer);
         }
 
         // GET: Developers/Edit/5
