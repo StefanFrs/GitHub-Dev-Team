@@ -24,6 +24,14 @@
               <br />
             </returns>
         </member>
+        <member name="M:GitHubSearchWebApp.Controllers.DevelopersController.Get(System.Int32,System.String)">
+            <summary>Gets the code size for a developer on a specified language.</summary>
+            <param name="developerId">The developer identifier.</param>
+            <param name="language">The language.</param>
+            <returns>
+              <br />
+            </returns>
+        </member>
         <member name="M:GitHubSearchWebApp.Controllers.DevelopersController.Index">
             <summary>Indexes this instance.</summary>
             <returns>
@@ -78,6 +86,11 @@
             <returns>
               <br />
             </returns>
+        </member>
+        <member name="T:GitHubSearchWebApp.Controllers.ExperiencesController">
+            <summary>
+              <para>Experiences Controller.</para>
+            </summary>
         </member>
         <member name="M:GitHubSearchWebApp.Controllers.ExperiencesController.Get(System.String,System.String)">
             <summary>Gets the projects of specified github login developer by language.</summary>
