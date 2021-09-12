@@ -371,3 +371,10 @@ google-logo {
   height: 34px;
   font-size: 16px;
 }
+
+
+/* donut chart */
+
+text{
+  fill: white;
+}
