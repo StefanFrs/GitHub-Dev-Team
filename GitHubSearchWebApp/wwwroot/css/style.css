@@ -7,6 +7,11 @@ p {
 }
 
 /* HEADER */
+.left-side-header a{
+  color: white;
+  text-decoration: none;
+}
+
 .site-header{
   background-color: #161b22;
   color: #f0f6fc;
