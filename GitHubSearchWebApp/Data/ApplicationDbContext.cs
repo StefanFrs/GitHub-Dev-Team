@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DevsWebApp.Models;
+using GitHubSearchWebApp.Models;
 
 namespace GitHubSearchWebApp.Data
 {
