@@ -7,7 +7,7 @@
 $.ajax(settingsUsers).done(function (responses) {
     var users = document.getElementsByClassName("users")[0];
     
-    responses.forEach((response) => {
+    responses.forEach((response, index) => {
 
         var newCard = document.createElement("DIV");
         newCard.classList.add("user-card");
@@ -46,9 +46,13 @@ $.ajax(settingsUsers).done(function (responses) {
             "headers": {
                 "Authorization": "Bearer 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"
             },
+            data:{
+                index:index
+            }
         };
+
         $.ajax(settingsLanguages).done(function (response) {
-            var skillsContainer = document.getElementsByClassName("skills-list")[0];
+            var skillsContainer = document.getElementsByClassName("skills-list")[index];
 
             var skillList = [];
 
