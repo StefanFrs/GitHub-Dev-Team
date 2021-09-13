@@ -39,6 +39,22 @@ namespace GitHubSearchWebApp.Controllers
             return Ok(await _context.Developer.ToListAsync());
         }
 
+
+        /// <summary>Gets the developer by githubLogin.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <returns>Http Response.<br /></returns>
+        [HttpGet("developer/{githubLoginDeveloper}")]
+        public async Task<IActionResult> Get(string githubLoginDeveloper)
+        {
+            var developer = await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.GitLogin == githubLoginDeveloper);
+            foreach (var experience in developer.Experiences)
+            {
+                await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.Id == experience.Id);
+            }
+            return Ok(developer);
+        }
+
+
         /// <summary>Gets the repo count for specified developer identifier.</summary>
         /// <param name="developerId">The developer identifier.</param>
         /// <returns>

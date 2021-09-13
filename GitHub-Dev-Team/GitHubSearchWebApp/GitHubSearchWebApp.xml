@@ -17,6 +17,11 @@
             <summary>Gets all instances of developers.</summary>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
         </member>
+        <member name="M:GitHubSearchWebApp.Controllers.DevelopersController.Get(System.String)">
+            <summary>Gets the developer by githubLogin.</summary>
+            <param name="githubLoginDeveloper">The github login developer.</param>
+            <returns>Http Response.<br /></returns>
+        </member>
         <member name="M:GitHubSearchWebApp.Controllers.DevelopersController.Get(System.Int32)">
             <summary>Gets the repo count for specified developer identifier.</summary>
             <param name="developerId">The developer identifier.</param>
