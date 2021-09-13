@@ -4,6 +4,7 @@
     "timeout": 0,
 };
 
+
 $.ajax(settingsUsers).done(function (responses) {
     var users = document.getElementsByClassName("users")[0];
     
@@ -44,7 +45,7 @@ $.ajax(settingsUsers).done(function (responses) {
             "method": "GET",
             "timeout": 0,
             "headers": {
-                "Authorization": "Bearer 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"
+                "Authorization": "Bearer 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"
             },
             data:{
                 index:index
@@ -54,18 +55,10 @@ $.ajax(settingsUsers).done(function (responses) {
         $.ajax(settingsLanguages).done(function (response) {
             var skillsContainer = document.getElementsByClassName("skills-list")[index];
 
-            var skillList = [];
 
-            if (response.length > 5) {
-                skillList = response.slice(0, 4);
-                skillList.push("And" + (response.length - 4) + "other languages")
-            }
-            else {
-                skillList = response.slice(0, 5);
-            }
 
-            skillList.forEach(element => {
-                $.getJSON('js/colours.json', { element: element }).done(function (json) {
+            response.forEach((element, index) => {
+                $.getJSON('js/colours.json', { element: element, index: index }).done(function (json) {
                     var coloursDictionary = [];
                     for (var language in json) {
                         if (json.hasOwnProperty(language)) {
@@ -84,6 +77,7 @@ $.ajax(settingsUsers).done(function (responses) {
                             return obj.name === element;
                         })
                         newLanguageColour = newLanguageObject[0].colour;
+                        console.log(newLanguageColour);
                     }
                     else {
                         newLanguageColour = "gray";
@@ -92,11 +86,12 @@ $.ajax(settingsUsers).done(function (responses) {
                     newLanguage.classList.add("skill-item");
                     newLanguage.classList.add("d-flex");
                     newLanguage.classList.add("align-items-center");
+                    
                     newLanguage.innerHTML = `<div class="skill-item d-flex align-items-center">
                                                 <div class="dot mr-2" style="background:${newLanguageColour}">
                                                 </div>
                                                 <div class="skill-name ">
-                                                    <p>${element}</p>
+                                                    ${element}
                                                 </div>
                                             </div>`;
                     skillsContainer.appendChild(newLanguage);
@@ -105,7 +100,3 @@ $.ajax(settingsUsers).done(function (responses) {
         });
     })
 })
-
-
-
-
