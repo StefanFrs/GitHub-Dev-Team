@@ -32,7 +32,7 @@ $.ajax(settingsUsers).done(function (responses) {
                                    
                                     </div>
                                 <div class="col-lg-4 mt-3">
-                                    <button class="btn btn-dark btn-lg button-view"><i class="fas fa-expand-arrows-alt"></i>
+                                    <button type="button" class="btn btn-dark btn-lg button-view" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-expand-arrows-alt"></i>
                                     View</button>
                                 </div>
                             </div>
