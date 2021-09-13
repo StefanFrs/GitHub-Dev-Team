@@ -9,12 +9,11 @@ $.ajax(settingsUsers).done(function (responses) {
     var users = document.getElementsByClassName("users")[0];
 
     responses.forEach((response, index) => {
-
         var newCard = document.createElement("DIV");
         newCard.classList.add("user-card");
         newCard.classList.add("mt-5");
-        newCard.innerHTML = `<li>
-                                <div class="row justify-content-between">
+        newCard.innerHTML = `
+                                <div class="row justify-content-between" id="row${index}">
                                 <div class="col-lg-8 d-flex justify-content-between">
                                     <div class="user-name">
                                         <h3>${response.fullName}</h3>
@@ -31,7 +30,9 @@ $.ajax(settingsUsers).done(function (responses) {
                                 </div>
                                 <div class="col-lg-8 mt-4">
                                     <div class="skills-list d-flex justify-content-around align-items-center flex-wrap">
-                                            
+                                            <ul class= "technoList" id="ulTechList${index}">
+
+                                            </ul>
                                     </div>
                                 <div class="col-lg-4 mt-3">
                                     <button type="button" class="btn btn-dark btn-lg button-view" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-expand-arrows-alt"></i>
@@ -39,7 +40,7 @@ $.ajax(settingsUsers).done(function (responses) {
                                 </div>
                             </div>
                             <hr class="card-hr">
-                             </li>`;
+                             `;
 
         users.appendChild(newCard);
 
@@ -56,7 +57,7 @@ $.ajax(settingsUsers).done(function (responses) {
         };
 
         $.ajax(settingsLanguages).done(function (response) {
-            var skillsContainer = document.getElementsByClassName("skills-list")[index];
+            var skillsContainer = document.getElementsByClassName("technoList")[index];
 
             response.forEach(element => {
                 $.getJSON('js/colours.json', { element: element }).done(function (json) {
@@ -82,7 +83,7 @@ $.ajax(settingsUsers).done(function (responses) {
                     else {
                         newLanguageColour = "gray";
                     }
-                    var newLanguage = document.createElement("DIV");
+                    var newLanguage = document.createElement("LI");
                     newLanguage.classList.add("skill-item");
                     newLanguage.classList.add("d-flex");
                     newLanguage.classList.add("align-items-center");
@@ -90,7 +91,7 @@ $.ajax(settingsUsers).done(function (responses) {
                                                 <div class="dot mr-2" style="background:${newLanguageColour}">
                                                 </div>
                                                 <div class="skill-name ">
-                                                    <h5>${element}</h5>
+                                                    <h5 class="language">${element}</h5>
                                                 </div>
                                             </div>`;
                     skillsContainer.appendChild(newLanguage);
@@ -101,19 +102,29 @@ $.ajax(settingsUsers).done(function (responses) {
 })
 
 function myFunction() {
-    var input, filter, ul, li, a, i, txtValue, liSkills;
+    var input, filter, ul, li, a, i, txtValue, liSkills, j, technoLi, ul1;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
     ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName("li");
+    li = ul.childNodes;
 
+    var user = [];
     for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("h5")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
+        ul1 = document.getElementById("ulTechList" + i);
+        technoLi = ul1.childNodes;
+        var contains = false;
+        for (j = 1; j < technoLi.length; j++) {
+            a = technoLi[j].childNodes[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().includes(filter)) {
+                contains = true;
+            }
+        }
+        if (!contains) {
+            document.getElementById("row" + i).setAttribute("style", "display: none;");
         } else {
-            li[i].style.display = "none";
+            document.getElementById("row" + i).setAttribute("style", "");
         }
     }
+    console.log(user);
 }
