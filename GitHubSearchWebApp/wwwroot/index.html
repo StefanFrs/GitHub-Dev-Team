@@ -37,16 +37,18 @@
 
             <div>
                 <form class="search">
-                    <input type="text" class="search__input" placeholder="Search">
+                    <input type="text" class="search__input" placeholder="Search" id="myInput" onkeyup="myFunction()">
                 </form>
             </div>
         </div>
     </header>
 
     <div class="main-content d-flex justify-content-center mt-5">
-        <div class="users">
+        <ul id="myUL">
+            <li class="users">
 
-        </div>
+            </li>
+        </ul>
         <div class="modal fade"
              id="exampleModalLong"
              tabindex="-1"

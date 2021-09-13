@@ -9,11 +9,12 @@ $.ajax(settingsUsers).done(function (responses) {
     var users = document.getElementsByClassName("users")[0];
 
     responses.forEach((response, index) => {
+
         var newCard = document.createElement("DIV");
         newCard.classList.add("user-card");
         newCard.classList.add("mt-5");
-        newCard.innerHTML = `
-                                <div class="row justify-content-between" id="row${index}">
+        newCard.innerHTML = `<li>
+                                <div class="row justify-content-between">
                                 <div class="col-lg-8 d-flex justify-content-between">
                                     <div class="user-name">
                                         <h3>${response.fullName}</h3>
@@ -28,22 +29,17 @@ $.ajax(settingsUsers).done(function (responses) {
                                         <p>${response.email}</p>
                                     </div>
                                 </div>
-                           
                                 <div class="col-lg-8 mt-4">
-                                    <div class="skills-list d-flex justify-content-start align-items-center flex-wrap">
-                                            <ul class= "technoList" id="ulTechList${index}">
-
-                                            </ul>
+                                    <div class="skills-list d-flex justify-content-around align-items-center flex-wrap">
+                                   
                                     </div>
-</div>
                                 <div class="col-lg-4 mt-3">
                                     <button type="button" class="btn btn-dark btn-lg button-view" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-expand-arrows-alt"></i>
                                     View</button>
                                 </div>
-                            
-                        </div>
+                            </div>
                             <hr class="card-hr">
-                             `;
+                             </li>`;
 
         users.appendChild(newCard);
 
@@ -60,7 +56,7 @@ $.ajax(settingsUsers).done(function (responses) {
         };
 
         $.ajax(settingsLanguages).done(function (response) {
-            var skillsContainer = document.getElementsByClassName("technoList")[index];
+            var skillsContainer = document.getElementsByClassName("skills-list")[index];
 
             response.forEach(element => {
                 $.getJSON('js/colours.json', { element: element }).done(function (json) {
@@ -86,7 +82,7 @@ $.ajax(settingsUsers).done(function (responses) {
                     else {
                         newLanguageColour = "gray";
                     }
-                    var newLanguage = document.createElement("LI");
+                    var newLanguage = document.createElement("DIV");
                     newLanguage.classList.add("skill-item");
                     newLanguage.classList.add("d-flex");
                     newLanguage.classList.add("align-items-center");
@@ -94,7 +90,7 @@ $.ajax(settingsUsers).done(function (responses) {
                                                 <div class="dot mr-2" style="background:${newLanguageColour}">
                                                 </div>
                                                 <div class="skill-name ">
-                                                    <h5 class="language">${element}</h5>
+                                                    <p>${element}</p>
                                                 </div>
                                             </div>`;
                     skillsContainer.appendChild(newLanguage);
@@ -103,31 +99,3 @@ $.ajax(settingsUsers).done(function (responses) {
         });
     })
 })
-
-function myFunction() {
-    var input, filter, ul, li, a, i, txtValue, liSkills, j, technoLi, ul1;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.childNodes;
-
-    var user = [];
-    for (i = 0; i < li.length; i++) {
-        ul1 = document.getElementById("ulTechList" + i);
-        technoLi = ul1.childNodes;
-        var contains = false;
-        for (j = 1; j < technoLi.length; j++) {
-            a = technoLi[j].childNodes[0];
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().includes(filter)) {
-                contains = true;
-            }
-        }
-        if (!contains) {
-            document.getElementById("row" + i).setAttribute("style", "display: none;");
-        } else {
-            document.getElementById("row" + i).setAttribute("style", "");
-        }
-    }
-    console.log(user);
-}
