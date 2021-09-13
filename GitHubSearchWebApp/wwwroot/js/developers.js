@@ -28,17 +28,20 @@ $.ajax(settingsUsers).done(function (responses) {
                                         <p>${response.email}</p>
                                     </div>
                                 </div>
+                           
                                 <div class="col-lg-8 mt-4">
-                                    <div class="skills-list d-flex justify-content-around align-items-center flex-wrap">
+                                    <div class="skills-list d-flex justify-content-start align-items-center flex-wrap">
                                             <ul class= "technoList" id="ulTechList${index}">
 
                                             </ul>
                                     </div>
+</div>
                                 <div class="col-lg-4 mt-3">
                                     <button type="button" class="btn btn-dark btn-lg button-view" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-expand-arrows-alt"></i>
                                     View</button>
                                 </div>
-                            </div>
+                            
+                        </div>
                             <hr class="card-hr">
                              `;
 
