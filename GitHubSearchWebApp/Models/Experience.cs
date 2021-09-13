@@ -63,6 +63,7 @@ namespace GitHubSearchWebApp.Models
         [Description("Dockerfile")] Dockerfile,
         [Description("Haskell")] Haskell,
         [Description("Starlark")] Starlark,
+        [Description("SystemVerilog")] SystemVerilog,
     }
 
 
