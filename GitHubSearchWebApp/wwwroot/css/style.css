@@ -7,6 +7,11 @@ p {
 }
 
 /* HEADER */
+.left-side-header a{
+  color: white;
+  text-decoration: none;
+}
+
 .site-header{
   background-color: #161b22;
   color: #f0f6fc;
@@ -327,4 +332,69 @@ svg #shadow_1_ {
   -webkit-transition: 0.6s;
   -webkit-transform-style: preserve-3d;
   position: relative;
+}
+
+/* search page */
+
+google-logo {
+  /* margin-top:calc(5px + (200 - 5) * ((100vh - 650px) / (1080 - 650))); */
+   margin-top: 101px; 
+}
+.google-logo img{
+  width: 500px;
+  height: 250px;
+  object-fit: contain;
+}
+.search-section:hover {
+  background-color: #fff;
+  box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+  border-color: rgba(223, 225, 229, 0);
+}
+.search-section {
+  background: #fff;
+  border: 1px solid #dfe1e5;
+  box-shadow: none;
+  border-radius: 24px;
+  z-index: 3;
+  height: 44px;
+  margin: 0 auto;
+  width: 580px;
+}
+
+.search-section img {
+  height: 24px;
+  width: 24px;
+}
+
+.search-section input {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.87);
+  word-wrap: break-word;
+  outline: none;
+  display: flex;
+  flex: 100%;
+  -webkit-tap-highlight-color: transparent;
+  margin-top: -37px;
+  height: 34px;
+  font-size: 16px;
+}
+
+.statistics-title{
+  color: white;
+}
+
+/* donut chart */
+
+text{
+  fill: white;
+}
+
+/* line chart */
+
+.bar-chart{
+  width: 80%;
+  margin: 15px auto;
 }
