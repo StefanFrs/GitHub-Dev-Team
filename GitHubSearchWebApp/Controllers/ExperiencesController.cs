@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace GitHubSearchWebApp.Controllers
 {
+    /// <summary>ExperiencesController .</summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ExperiencesController : ControllerBase
@@ -20,6 +21,8 @@ namespace GitHubSearchWebApp.Controllers
         private IExperiencesService experiencesService;
         private DevelopersController developersController;
 
+        /// <summary>Initializes a new instance of the <see cref="ExperiencesController" /> class.</summary>
+        /// <param name="context">The context.</param>
         public ExperiencesController(ApplicationDbContext context)
         {
             _context = context;
@@ -54,12 +57,19 @@ namespace GitHubSearchWebApp.Controllers
             return experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper).Select(l => l.ToString());
         }
 
+        /// <summary>Gets the get programming languages as set.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <returns>
+        ///   <para>ISet&lt;ProgrammingLanguages&gt;<br /></para>
+        /// </returns>
         [NonAction]
         public ISet<ProgrammingLanguages> GetGetProgrammingLanguagesAsSet(string githubLoginDeveloper)
         {
             return experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
         }
 
+        /// <summary>Gets the languages of the team.</summary>
+        /// <returns>Http Response.</returns>
         [HttpGet("statistics/languages"), ActionName("GetLanguages")]
         public async Task<IActionResult> GetLanguages()
         {
@@ -84,6 +94,11 @@ namespace GitHubSearchWebApp.Controllers
         }
 
 
+        /// <summary>Gets the statistics of the team.</summary>
+        /// <param name="language">The language.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpGet("statistics/{language}"), ActionName("GetStatistics")]
         public async Task<IActionResult> GetStatistics(string language)
         {
@@ -103,6 +118,9 @@ namespace GitHubSearchWebApp.Controllers
 
 
         // POST api/<ExperiencesController>
+        /// <summary>Addsexperience.</summary>
+        /// <param name="experience">The experience.</param>
+        /// <returns>Http Response.<br /></returns>
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] Experience experience)
         {
@@ -122,6 +140,13 @@ namespace GitHubSearchWebApp.Controllers
         }
 
         // PUT api/<ExperiencesController>/5
+        /// <summary>Updates experience of specified developer on specified language.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <param name="programmingLanguage">The programming language.</param>
+        /// <param name="description">The description.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpPut("{githubLoginDeveloper}/{programmingLanguage}")]
         public async Task<IActionResult> Put(string githubLoginDeveloper, string programmingLanguage, [FromBody] string description)
         {

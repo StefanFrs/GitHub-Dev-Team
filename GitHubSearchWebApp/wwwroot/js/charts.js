@@ -64,8 +64,8 @@ function addNewChart(language) {
         for (statistic in statistics) {
             developers.push(statistic);
             var data = statistics[statistic].split(" ");
-            codeData.push(data[0]);
-            repositoriesData.push(data[0]);
+            codeData.push(data[0]/(10 ** 3));
+            repositoriesData.push(data[1]);
         }
         console.log(language + " " + developers + " " + codeData + " " + repositoriesData);
         var myChart = new Chart(ctx, {
@@ -77,7 +77,7 @@ function addNewChart(language) {
                     data: repositoriesData,
                     backgroundColor: "rgba(0, 204, 0)"
                 }, {
-                    label: 'code Size (kB)',
+                    label: 'code Size (MB)',
                     data: codeData,
                     backgroundColor: "rgba(0, 153, 255)"
                 }]
