@@ -7,13 +7,14 @@
 
 $.ajax(settingsUsers).done(function (responses) {
     var users = document.getElementsByClassName("users")[0];
-    
+
     responses.forEach((response, index) => {
 
         var newCard = document.createElement("DIV");
         newCard.classList.add("user-card");
         newCard.classList.add("mt-5");
-        newCard.innerHTML = `<div class="row justify-content-between">
+        newCard.innerHTML = `<li>
+                                <div class="row justify-content-between">
                                 <div class="col-lg-8 d-flex justify-content-between">
                                     <div class="user-name">
                                         <h3>${response.fullName}</h3>
@@ -30,14 +31,16 @@ $.ajax(settingsUsers).done(function (responses) {
                                 </div>
                                 <div class="col-lg-8 mt-4">
                                     <div class="skills-list d-flex justify-content-around align-items-center flex-wrap">
-                                   
+                                            
                                     </div>
                                 <div class="col-lg-4 mt-3">
                                     <button type="button" class="btn btn-dark btn-lg button-view" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-expand-arrows-alt"></i>
                                     View</button>
                                 </div>
                             </div>
-                            <hr class="card-hr">`;
+                            <hr class="card-hr">
+                             </li>`;
+
         users.appendChild(newCard);
 
         var settingsLanguages = {
@@ -47,8 +50,8 @@ $.ajax(settingsUsers).done(function (responses) {
             "headers": {
                 "Authorization": "Bearer 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"
             },
-            data:{
-                index:index
+            data: {
+                index: index
             }
         };
 
@@ -87,7 +90,7 @@ $.ajax(settingsUsers).done(function (responses) {
                                                 <div class="dot mr-2" style="background:${newLanguageColour}">
                                                 </div>
                                                 <div class="skill-name ">
-                                                    <p>${element}</p>
+                                                    <h5>${element}</h5>
                                                 </div>
                                             </div>`;
                     skillsContainer.appendChild(newLanguage);
@@ -96,3 +99,21 @@ $.ajax(settingsUsers).done(function (responses) {
         });
     })
 })
+
+function myFunction() {
+    var input, filter, ul, li, a, i, txtValue, liSkills;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("h5")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}

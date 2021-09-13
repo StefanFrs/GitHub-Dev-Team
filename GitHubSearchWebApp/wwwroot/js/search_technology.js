@@ -13,7 +13,8 @@ $.ajax(settingsUsers).done(function (responses) {
         var newCard = document.createElement("DIV");
         newCard.classList.add("user-card");
         newCard.classList.add("mt-5");
-        newCard.innerHTML = `<div class="row justify-content-between">
+        newCard.innerHTML = `<li>
+                                <div class="row justify-content-between">
                                 <div class="col-lg-8 d-flex justify-content-between">
                                     <div class="user-name">
                                         <h3>${response.fullName}</h3>
@@ -37,7 +38,9 @@ $.ajax(settingsUsers).done(function (responses) {
                                     View</button>
                                 </div>
                             </div>
-                            <hr class="card-hr">`;
+                            <hr class="card-hr">
+                             </li>`;
+
         users.appendChild(newCard);
 
         var settingsLanguages = {
