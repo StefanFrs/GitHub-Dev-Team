@@ -62,13 +62,27 @@
     <div class="statistics mt-5">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <h2 class="text-center statistics-title">Languages</h2>
+                <h2 class="text-center statistics-title">Code Written By The Team</h2>
+                <p class="text-center lead mb-5">(Kb)</p>
                 <div id="donut-chart"></div>
             </div>
             <div class="col-md-8">
                 <h2 class="text-center statistics-title">Activity</h2>
-                <div class="bar-chart">
-                    <canvas id="myChart"></canvas>
+
+                <div class="dropdown text-center">
+                    <button class="btn btn-secondary dropdown-toggle btnTehnology text-center" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tehnology
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="technologies">
+                        <a class="dropdown-item" data-value="action" href="#">Action</a>
+                        <a class="dropdown-item" data-value="action1" href="#">Another action</a>
+                        <a class="dropdown-item" data-value="action2" href="#">Something else here</a>
+                    </div>
+                </div>
+
+               
+                <div class="bar-chart" id="displayCharts">
+                    
                 </div>
             </div>
         </div>

@@ -60,6 +60,48 @@ namespace GitHubSearchWebApp.Controllers
             return experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
         }
 
+        [HttpGet("statistics/languages"), ActionName("GetLanguages")]
+        public async Task<IActionResult> GetLanguages()
+        {
+            Dictionary<string, long> codeSizesByLanguage = new Dictionary<string, long>();
+            var developers = _context.Developer.Include(d => d.Experiences);
+            foreach (var developer in developers)
+            {
+                foreach (var experience in developer.Experiences)
+                {
+                    await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.Id == experience.Id);
+                    string language = experience.ProgrammingLanguage.ToString();
+                    if ( codeSizesByLanguage.ContainsKey(language))
+                    {
+                        codeSizesByLanguage[language] += Convert.ToInt64(experience.CodeSize);
+                    } else
+                    {
+                        codeSizesByLanguage.Add(language, Convert.ToInt64(experience.CodeSize));
+                    }
+                }
+            }
+            return Ok(codeSizesByLanguage);
+        }
+
+
+        [HttpGet("statistics/{language}"), ActionName("GetStatistics")]
+        public async Task<IActionResult> GetStatistics(string language)
+        {
+            Dictionary<string, string> developersStatistics = new Dictionary<string, string>();
+            var developers = _context.Developer.Include(d => d.Experiences);
+            ProgrammingLanguages programmingLanguage = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), language);
+            foreach (var developer in developers)
+            {
+                var experience = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.ProgrammingLanguage == programmingLanguage && e.DeveloperId == developer.Id);
+                if ( experience != null)
+                {
+                    developersStatistics.Add(developer.FullName, experience.CodeSize + " " + experience.Projects.Count);
+                }
+            }
+            return Ok(developersStatistics);
+        }
+
+
         // POST api/<ExperiencesController>
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] Experience experience)
