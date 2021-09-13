@@ -378,3 +378,10 @@ google-logo {
 text{
   fill: white;
 }
+
+/* line chart */
+
+.bar-chart{
+  width: 80%;
+  margin: 15px auto;
+}
