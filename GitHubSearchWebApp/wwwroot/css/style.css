@@ -398,3 +398,157 @@ text{
   width: 80%;
   margin: 15px auto;
 }
+
+
+/* MODAL */
+.modal-backdrop {
+    background-color: black;
+}
+
+.modal-header {
+    background-color: #0d1117;
+    color: white;
+}
+
+.modal-body {
+    background-color: #0d1117;
+    color: white;
+    font-size: 14px;
+    border-width: 0px;
+}
+
+.modal-footer {
+    background-color: #0d1117;
+    color: white;
+}
+
+.modal-content {
+    border-width: 0.2px;
+    border-color: rgb(214, 214, 214);
+}
+
+.devName {
+    color: #505050;
+    font-size: 30px;
+}
+
+.gitt {
+    align-items: flex-start;
+    align-self: stretch;
+    align-content: space-between;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+}
+
+.headerContents {
+    padding: 0;
+    margin: 0;
+}
+
+.listt {
+    margin: 2px;
+    padding: 0px;
+}
+
+.devGitName {
+    color: #989898;
+    font-size: 20px;
+}
+
+.codeIntro {
+    color: #989898;
+    font-size: 16px;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    background: red;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 50%;
+}
+
+.skill-name {
+    color: #989898;
+    font-size: 16px;
+}
+
+.codeSize {
+    font-size: 18px;
+}
+
+.progress {
+    width: 110px;
+    float: right;
+    background-color: #010409
+}
+
+
+.dropdown-menu {
+    background-color: #0d1117;
+    color: #989898;
+}
+
+.dropdown-item {
+    color: #989898;
+}
+
+.container {
+    background-color: #0d1117;
+}
+
+.modal {
+    overflow-y: auto;
+}
+
+.card {
+    width: 650px;
+    background-color: #161b22;
+    color: #989898;
+    border-color: white;
+    margin-top: 10px;
+    padding: 4px;
+}
+
+.box1 {
+    /*margin-left: 45px*/
+    display: flex;
+    align-items: center;
+}
+
+.addButton {
+    padding: 10px;
+    background-color: #161b22;
+    color: #989898;
+}
+
+.form-control {
+    padding: 10px;
+    background-color: #010409;
+    color: #989898;
+    width: 650px;
+    margin: auto;
+}
+
+    .form-control:valid {
+        background-color: #010409 !important;
+        color: #989898;
+    }
+
+.repos {
+    margin-left: 140px;
+}
+
+.btnTehnology {
+    width: 90%;
+    background-color: #010409;
+    color: #989898;
+}
+
+.dropdown-menu {
+    width: 90% !important;
+}

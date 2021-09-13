@@ -33,7 +33,7 @@ $.ajax(settingsUsers).done(function (responses) {
                                    
                                     </div>
                                 <div class="col-lg-4 mt-3">
-                                    <button class="btn btn-dark btn-lg button-view"><i class="fas fa-expand-arrows-alt"></i>
+                                    <button type="button" class="btn btn-dark btn-lg button-view" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-expand-arrows-alt"></i>
                                     View</button>
                                 </div>
                             </div>
@@ -55,17 +55,7 @@ $.ajax(settingsUsers).done(function (responses) {
         $.ajax(settingsLanguages).done(function (response) {
             var skillsContainer = document.getElementsByClassName("skills-list")[index];
 
-            var skillList = [];
-
-            if (response.length > 5) {
-                skillList = response.slice(0, 4);
-                skillList.push("And" + (response.length - 4) + "other languages")
-            }
-            else {
-                skillList = response.slice(0, 5);
-            }
-
-            skillList.forEach(element => {
+            response.forEach(element => {
                 $.getJSON('js/colours.json', { element: element }).done(function (json) {
                     var coloursDictionary = [];
                     for (var language in json) {
