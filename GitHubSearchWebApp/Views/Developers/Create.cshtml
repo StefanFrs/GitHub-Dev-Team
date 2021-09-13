@@ -10,7 +10,7 @@
 <hr style="border-color: #bdbdbd" />
 <div class="row my-5">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="formCreateDeveloper">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FullName" class="control-label" style="color: #9e9e9e"></label>
@@ -31,7 +31,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9e9e9e" class="bi bi-check2" viewBox="0 0 16 16">
                     <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                 </svg>
-                <input type="submit" value="Create" class="btn btn-secondary" style="background: #21262d; border: solid 1px #bdbdbd; border-radius: 5px; color: #e0e0e0"/>
+                <input type="submit" id="submitDeveloper" value="Create" class="btn btn-secondary" style="background: #21262d; border: solid 1px #bdbdbd; border-radius: 5px; color: #e0e0e0"/>
             </div>
         </form>
     </div>
@@ -40,7 +40,18 @@
 <div>
     <a asp-action="Index" style="color: #3e9eff;">Back to List</a>
 </div>
-
+<div class="text-center" id="spinner" style="display: none;">
+    <div class="spinner-grow text-dark my-2" style="width: 5rem; height: 5rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <p class="lead my-3" style="color: #757575">We are gathering developer experience !</p>
+</div>
+<script>
+    document.getElementById("formCreateDeveloper").addEventListener('submit', function () {
+        console.log("submitted");
+        document.getElementById("spinner").setAttribute("style", "");
+    })
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
