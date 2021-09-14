@@ -147,8 +147,8 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
-        [HttpPut("{githubLoginDeveloper}/{programmingLanguage}")]
-        public async Task<IActionResult> Put(string githubLoginDeveloper, string programmingLanguage, [FromBody] string description)
+        [HttpPut("{githubLoginDeveloper}/{programmingLanguage}/{description}")]
+        public async Task<IActionResult> Put(string githubLoginDeveloper, string programmingLanguage, string description)
         {
             Experience experienceToUpdate = await GetExperienceToUpdate(githubLoginDeveloper, programmingLanguage, description);
             _context.Update(experienceToUpdate);
