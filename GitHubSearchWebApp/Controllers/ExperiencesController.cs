@@ -61,7 +61,7 @@ namespace GitHubSearchWebApp.Controllers
         ///   <para>ISet&lt;ProgrammingLanguages&gt;<br /></para>
         /// </returns>
         [NonAction]
-        public ISet<ProgrammingLanguages> GetGetProgrammingLanguagesAsSet(string githubLoginDeveloper)
+        public ISet<ProgrammingLanguages> GetProgrammingLanguagesAsSet(string githubLoginDeveloper)
         {
             return gitHubApiService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
         }

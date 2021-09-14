@@ -19,7 +19,6 @@ namespace GitHubSearchWebApp.Controllers
     /// </summary>
     public class DevelopersController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IExperiencesRepository experiencesRepository;
         private readonly IDevelopersRepository developersRepository;
         private readonly IGitHubApiService gitHubApiService;
@@ -28,9 +27,8 @@ namespace GitHubSearchWebApp.Controllers
 
         /// <summary>Initializes a new instance of the <see cref="DevelopersController" /> class.</summary>
         /// <param name="context">The context.</param>
-        public DevelopersController(ApplicationDbContext context,IGitHubApiService gitHubApiService, IExperiencesRepository experiencesRepository, IDevelopersRepository developersRepository)
+        public DevelopersController(IGitHubApiService gitHubApiService, IExperiencesRepository experiencesRepository, IDevelopersRepository developersRepository)
         {
-            _context = context;
             this.experiencesRepository = experiencesRepository;
             this.developersRepository = developersRepository;
             this.gitHubApiService = gitHubApiService;
@@ -42,7 +40,7 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("allDevelopers")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _context.Developer.ToListAsync());
+            return Ok(developersRepository.GetAll());
         }
 
 
@@ -52,11 +50,7 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("developer/{githubLoginDeveloper}")]
         public async Task<IActionResult> Get(string githubLoginDeveloper)
         {
-            var developer = await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.GitLogin == githubLoginDeveloper);
-            foreach (var experience in developer.Experiences)
-            {
-                await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.Id == experience.Id);
-            }
+            var developer = developersRepository.GetByGithubLogin(githubLoginDeveloper);
             return Ok(developer);
         }
 
@@ -69,39 +63,16 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("developer/repoCount/{developerId}")]
         public async Task<IActionResult> Get(int developerId)
         {
-            var developer = await GetDeveloper(developerId);
-            int numberOfRepos = await GetNumberOfRepos(developer);
+            int numberOfRepos = developersRepository.GetRepoCountByDeveloper(developerId);
             return Ok(numberOfRepos);
         }
 
-        private async Task<int> GetNumberOfRepos(Developer developer)
-        {
-            int numberOfRepos = 0;
-            foreach (var experience in developer.Experiences)
-            {
-                var experienceWithProjects = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.Id == experience.Id);
-                numberOfRepos += experienceWithProjects.Projects.Count;
-            }
-
-            return numberOfRepos;
-        }
+     
 
         [HttpGet("developer/codeSize/{developerId}/{language}")]
         public async Task<IActionResult> Get(int developerId, string language)
         {
-            var developer = await GetDeveloper(developerId);
-            ProgrammingLanguages programmingLanguage = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), language);
-            return base.Ok(GetCodeSizeByLanguage(developer, programmingLanguage));
-        }
-
-        private static long GetCodeSizeByLanguage(Developer developer, ProgrammingLanguages programmingLanguage)
-        {
-            return developer.Experiences.ToList().FindAll(e => e.ProgrammingLanguage == programmingLanguage).Sum(e => Convert.ToInt64(e.CodeSize));
-        }
-
-        private async Task<Developer> GetDeveloper(int developerId)
-        {
-            return await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.Id == developerId);
+            return base.Ok(developersRepository.GetCodeSizeByDeveloperIdAndLanguage(developerId, language));
         }
 
         // GET: Developers
@@ -111,7 +82,7 @@ namespace GitHubSearchWebApp.Controllers
         /// </returns>
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Developer.ToListAsync());
+            return View(developersRepository.GetAll());
         }
 
         // GET: Developers/Details/5
@@ -127,8 +98,7 @@ namespace GitHubSearchWebApp.Controllers
                 return NotFound();
             }
 
-            var developer = await _context.Developer
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var developer = developersRepository.GetByDeveloperId(id);
             if (developer == null)
             {
                 return NotFound();
@@ -161,8 +131,7 @@ namespace GitHubSearchWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Developer developerJustAdded = _context.Add(developer).Entity;
-                await _context.SaveChangesAsync();
+                developersRepository.Add(developer);
                 await AddDeveloperExperience(developer);
 
                 return RedirectToAction(nameof(Index));
@@ -172,7 +141,7 @@ namespace GitHubSearchWebApp.Controllers
 
         private async Task AddDeveloperExperience(Developer developer)
         {
-            ISet<ProgrammingLanguages> programmingLanguagesDeveloper = experiencesController.GetGetProgrammingLanguagesAsSet(developer.GitLogin);
+            ISet<ProgrammingLanguages> programmingLanguagesDeveloper = experiencesController.GetProgrammingLanguagesAsSet(developer.GitLogin);
             List<Experience> experiences = new List<Experience>();
             foreach (var programmingLanguage in programmingLanguagesDeveloper)
             {
@@ -185,8 +154,7 @@ namespace GitHubSearchWebApp.Controllers
             }
             developer.Experiences = experiences;
             developer.AvatarURL = gitHubApiService.GetDeveloperAvatarURL(developer.GitLogin);
-            _context.Update(developer);
-            await _context.SaveChangesAsync();
+            developersRepository.Update(developer);
         }
 
         // GET: Developers/Edit/5
@@ -202,7 +170,7 @@ namespace GitHubSearchWebApp.Controllers
                 return NotFound();
             }
 
-            var developer = await _context.Developer.FindAsync(id);
+            var developer = developersRepository.GetByDeveloperId(id);
             if (developer == null)
             {
                 return NotFound();
@@ -232,12 +200,11 @@ namespace GitHubSearchWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(developer);
-                    await _context.SaveChangesAsync();
+                    developersRepository.Update(developer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeveloperExists(developer.Id))
+                    if (!developersRepository.DeveloperExists(developer.Id))
                     {
                         return NotFound();
                     }
@@ -264,8 +231,7 @@ namespace GitHubSearchWebApp.Controllers
                 return NotFound();
             }
 
-            var developer = await _context.Developer
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var developer = developersRepository.GetByDeveloperId(id);
             if (developer == null)
             {
                 return NotFound();
@@ -284,15 +250,10 @@ namespace GitHubSearchWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var developer = await _context.Developer.FindAsync(id);
-            _context.Developer.Remove(developer);
-            await _context.SaveChangesAsync();
+            developersRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DeveloperExists(int id)
-        {
-            return _context.Developer.Any(e => e.Id == id);
-        }
+        
     }
 }
