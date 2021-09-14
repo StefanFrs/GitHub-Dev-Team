@@ -17,15 +17,14 @@ namespace GitHubSearchWebApp.Controllers
     [ApiController]
     public class ExperiencesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        
         private IExperiencesService experiencesService;
         private DevelopersController developersController;
 
         /// <summary>Initializes a new instance of the <see cref="ExperiencesController" /> class.</summary>
         /// <param name="context">The context.</param>
-        public ExperiencesController(ApplicationDbContext context)
+        public ExperiencesController()
         {
-            _context = context;
             experiencesService = new ExperiencesService();
         }
 
