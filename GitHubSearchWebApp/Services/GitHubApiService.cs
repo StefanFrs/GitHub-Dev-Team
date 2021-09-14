@@ -1,4 +1,5 @@
 ﻿using GitHubSearchWebApp.Models;
+using GitHubSearchWebApp.Services;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
@@ -6,14 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GitHubSearchWebApp.Services
+namespace GitHubSearchWebApp.Repo
 {
-    public class ExperiencesService : IExperiencesService
+    public class GitHubApiService:IGitHubApiService
     {
         private String serverContent;
 
-        /// <summary>Initializes a new instance of the <see cref="ExperiencesService" /> class.</summary>
-        public ExperiencesService()
+        /// <summary>Initializes a new instance of the <see cref="GitHubApiService" /> class.</summary>
+        public GitHubApiService()
         {
             serverContent = "";
         }
@@ -57,7 +58,7 @@ namespace GitHubSearchWebApp.Services
         {
             var client = new RestClient();
             client.Timeout = -1;
-            var request =   FormRequest(githubLoginDeveloper);
+            var request = FormRequest(githubLoginDeveloper);
             IRestResponse response = client.Execute(request);
 
             serverContent = response.Content;
@@ -66,14 +67,13 @@ namespace GitHubSearchWebApp.Services
         private static IRestRequest FormRequest(string githubLoginDeveloper)
         {
             return new RestRequest("https://api.github.com/users/{user}/repos", Method.GET)
-                                            .AddHeader("Authorization", "Bearer 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")
+                                            .AddHeader("Authorization", "Bearer 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")
                                             .AddUrlSegment("user", githubLoginDeveloper)
                                             .AddParameter("type", "all");
-                                            
+
         }
 
         /// <summary>Converts the server content to programming languages.</summary>
-        /// <param name="contentfromServer">The contentfrom server.</param>
         /// <returns>programming languages enumerable<br /></returns>
         public IEnumerable<string> ConvertServerContentToProgrammingLanguages()
         {
@@ -85,7 +85,7 @@ namespace GitHubSearchWebApp.Services
                 return new List<string>();
             }
 
-            
+
             return Enumerable.Range(1, numberOfRepositories).Select(index =>
             {
                 return developerRepositories[index - 1].Value<string>("language");
@@ -137,7 +137,7 @@ namespace GitHubSearchWebApp.Services
         private static string GetLanguage(int index, JArray developerRepositories)
         {
             string language = developerRepositories[index - 1].Value<string>("language");
-            if ( language != null)
+            if (language != null)
             {
                 language = language.Replace(" ", "").Replace("+", "Plus").Replace("#", "Sharp").Replace("-", "");
             }
@@ -152,6 +152,40 @@ namespace GitHubSearchWebApp.Services
         {
             IEnumerable<Project> projects = GetProjectsByDeveloperByLanguage(githubLoginDeveloper, programmingLanguage);
             return projects.ToArray().Sum(p => p.CodeSize);
+        }
+
+        private void GetUser(string githubLoginDeveloper)
+        {
+            var client = new RestClient();
+            client.Timeout = -1;
+            var request = FormRequestUser(githubLoginDeveloper);
+            IRestResponse response = client.Execute(request);
+
+            serverContent = response.Content;
+        }
+        private static IRestRequest FormRequestUser(string githubLoginDeveloper)
+        {
+            return new RestRequest("https://api.github.com/users/{user}", Method.GET)
+                                            .AddHeader("Authorization", "Bearer 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")
+                                            .AddUrlSegment("user", githubLoginDeveloper);
+        }
+
+
+        /// <summary>Gets the developer avatar URL.</summary>
+        /// <param name="githubLoginDeveloper">The github login developer.</param>
+        /// <returns>
+        ///   <para>String.</para>
+        /// </returns>
+        public string GetDeveloperAvatarURL(string githubLoginDeveloper)
+        {
+            GetUser(githubLoginDeveloper);
+            return ConvertServerContentToAvatarURL();
+        }
+
+        public string ConvertServerContentToAvatarURL()
+        {
+            var gitHubUser = JObject.Parse(serverContent);
+            return gitHubUser.Value<string>("avatar_url");
         }
     }
 }
