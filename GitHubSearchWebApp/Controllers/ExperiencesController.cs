@@ -1,5 +1,7 @@
 ﻿using GitHubSearchWebApp.Data;
 using GitHubSearchWebApp.Models;
+using GitHubSearchWebApp.Repo;
+using GitHubSearchWebApp.Repositories;
 using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,16 +19,17 @@ namespace GitHubSearchWebApp.Controllers
     [ApiController]
     public class ExperiencesController : ControllerBase
     {
-        
-        private IExperiencesService experiencesService;
-        private DevelopersController developersController;
+        private readonly IExperiencesRepository experiencesRepository;
+        private readonly IDevelopersRepository developersRepository;
+        private readonly IGitHubApiService gitHubApiService;
 
         /// <summary>Initializes a new instance of the <see cref="ExperiencesController" /> class.</summary>
-        /// <param name="context">The context.</param>
-        public ExperiencesController()
+        /// <param name="experiencesRepository">The experiences repo.</param>
+        public ExperiencesController(IGitHubApiService gitHubApiServices , IExperiencesRepository experiencesRepository, IDevelopersRepository developersRepository)
         {
-            experiencesService = new ExperiencesService();
-        }
+            this.experiencesRepository = experiencesRepository;
+            this.developersRepository = developersRepository;
+            this.gitHubApiService = gitHubApiServices;        }
 
         // GET: api/<ExperiencesController>/user/language
         /// <summary>Gets the projects of specified github login developer by language.</summary>
@@ -36,12 +39,8 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("{githubLoginDeveloper}/{programmingLanguage}")]
         public async Task<IActionResult> Get(string githubLoginDeveloper, string programmingLanguage)
         {
-            var developer = await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.GitLogin == githubLoginDeveloper);
-            ProgrammingLanguages language = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), programmingLanguage);
-
-            var experienceInProgrammingLanguage = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.ProgrammingLanguage == language && e.DeveloperId == developer.Id);
-
-            return Ok(experienceInProgrammingLanguage.Projects);
+            var experienceInProgrammingLanguage = experiencesRepository.GetProjectsByDeveloperAndLanguage(githubLoginDeveloper, programmingLanguage);
+            return Ok(experienceInProgrammingLanguage);
         }
 
         // GET api/<ExperiencesController>/programmingLanguages/user
@@ -53,7 +52,7 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("programmingLanguages/{githubLoginDeveloper}")]
         public IEnumerable<string> Get(string githubLoginDeveloper)
         {
-            return experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper).Select(l => l.ToString());
+            return gitHubApiService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper).Select(l => l.ToString());
         }
 
         /// <summary>Gets the get programming languages as set.</summary>
@@ -64,7 +63,7 @@ namespace GitHubSearchWebApp.Controllers
         [NonAction]
         public ISet<ProgrammingLanguages> GetGetProgrammingLanguagesAsSet(string githubLoginDeveloper)
         {
-            return experiencesService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
+            return gitHubApiService.GetProgrammingLanguagesByDeveloper(githubLoginDeveloper);
         }
 
         /// <summary>Gets the languages of the team.</summary>
@@ -72,23 +71,7 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("statistics/languages"), ActionName("GetLanguages")]
         public async Task<IActionResult> GetLanguages()
         {
-            Dictionary<string, long> codeSizesByLanguage = new Dictionary<string, long>();
-            var developers = _context.Developer.Include(d => d.Experiences);
-            foreach (var developer in developers)
-            {
-                foreach (var experience in developer.Experiences)
-                {
-                    await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.Id == experience.Id);
-                    string language = experience.ProgrammingLanguage.ToString();
-                    if ( codeSizesByLanguage.ContainsKey(language))
-                    {
-                        codeSizesByLanguage[language] += Convert.ToInt64(experience.CodeSize);
-                    } else
-                    {
-                        codeSizesByLanguage.Add(language, Convert.ToInt64(experience.CodeSize));
-                    }
-                }
-            }
+            Dictionary<string, long> codeSizesByLanguage = experiencesRepository.GetCodeSizes();
             return Ok(codeSizesByLanguage);
         }
 
@@ -101,17 +84,7 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("statistics/{language}"), ActionName("GetStatistics")]
         public async Task<IActionResult> GetStatistics(string language)
         {
-            Dictionary<string, string> developersStatistics = new Dictionary<string, string>();
-            var developers = _context.Developer.Include(d => d.Experiences);
-            ProgrammingLanguages programmingLanguage = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), language);
-            foreach (var developer in developers)
-            {
-                var experience = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.ProgrammingLanguage == programmingLanguage && e.DeveloperId == developer.Id);
-                if ( experience != null)
-                {
-                    developersStatistics.Add(developer.FullName, experience.CodeSize + " " + experience.Projects.Count);
-                }
-            }
+            Dictionary<string, string> developersStatistics = experiencesRepository.GetStatisticsByLanguage(language);
             return Ok(developersStatistics);
         }
 
@@ -121,19 +94,18 @@ namespace GitHubSearchWebApp.Controllers
         /// <param name="experience">The experience.</param>
         /// <returns>Http Response.<br /></returns>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] Experience experience)
+        public IActionResult PostAsync([FromBody] Experience experience)
         {
-            await SetExperienceCodeSizeAndProjects(experience);
-            _context.Add(experience);
-            await _context.SaveChangesAsync();
+            SetExperienceCodeSizeAndProjects(experience);
+            experiencesRepository.Add(experience);
             return Ok();
         }
 
-        private async Task SetExperienceCodeSizeAndProjects(Experience experience)
+        private void SetExperienceCodeSizeAndProjects(Experience experience)
         {
-            Developer developer = await _context.Developer.FirstOrDefaultAsync(m => m.Id == experience.DeveloperId);
-            IEnumerable<Project> projects = experiencesService.GetProjectsByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
-            long codeSize = experiencesService.GetCodeSizeByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
+            Developer developer = developersRepository.GetById(experience.DeveloperId);
+            IEnumerable<Project> projects = gitHubApiService.GetProjectsByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
+            long codeSize = gitHubApiService.GetCodeSizeByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
             experience.CodeSize = codeSize.ToString();
             experience.Projects = projects.ToList();
         }
@@ -147,21 +119,10 @@ namespace GitHubSearchWebApp.Controllers
         ///   <br />
         /// </returns>
         [HttpPut("{githubLoginDeveloper}/{programmingLanguage}/{description}")]
-        public async Task<IActionResult> Put(string githubLoginDeveloper, string programmingLanguage, string description)
+        public IActionResult Put(string githubLoginDeveloper, string programmingLanguage, string description)
         {
-            Experience experienceToUpdate = await GetExperienceToUpdate(githubLoginDeveloper, programmingLanguage, description);
-            _context.Update(experienceToUpdate);
-            await _context.SaveChangesAsync();
+            experiencesRepository.Update(githubLoginDeveloper, programmingLanguage, description);
             return Ok();
-        }
-
-        private async Task<Experience> GetExperienceToUpdate(string githubLoginDeveloper, string programmingLanguage, string description)
-        {
-            var developer = await _context.Developer.Include(d => d.Experiences).FirstOrDefaultAsync(d => d.GitLogin == githubLoginDeveloper);
-            ProgrammingLanguages language = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), programmingLanguage);
-            var experienceToUpdate = await _context.Experience.Include(e => e.Projects).FirstOrDefaultAsync(e => e.ProgrammingLanguage == language && e.DeveloperId == developer.Id);
-            experienceToUpdate.Description += "\n" + description;
-            return experienceToUpdate;
         }
     }
 }

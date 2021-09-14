@@ -17,6 +17,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
+using GitHubSearchWebApp.Repositories;
+using GitHubSearchWebApp.Repo;
+using GitHubSearchWebApp.Services;
 
 namespace GitHubSearchWebApp
 {
@@ -49,6 +52,9 @@ namespace GitHubSearchWebApp
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
+            services.AddScoped<IDevelopersRepository, DbDevelopersRepository>();
+            services.AddScoped<IExperiencesRepository, DbExperiencesRepository>();
+            services.AddScoped<IGitHubApiService, GitHubApiService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

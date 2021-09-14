@@ -9,6 +9,8 @@ using GitHubSearchWebApp.Data;
 using DevsWebApp.Models;
 using GitHubSearchWebApp.Models;
 using GitHubSearchWebApp.Services;
+using GitHubSearchWebApp.Repo;
+using GitHubSearchWebApp.Repositories;
 
 namespace GitHubSearchWebApp.Controllers
 {
@@ -18,17 +20,21 @@ namespace GitHubSearchWebApp.Controllers
     public class DevelopersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IExperiencesRepository experiencesRepository;
+        private readonly IDevelopersRepository developersRepository;
+        private readonly IGitHubApiService gitHubApiService;
         ExperiencesController experiencesController;
-        private IDevelopersService developersService;
 
 
         /// <summary>Initializes a new instance of the <see cref="DevelopersController" /> class.</summary>
         /// <param name="context">The context.</param>
-        public DevelopersController(ApplicationDbContext context)
+        public DevelopersController(ApplicationDbContext context,IGitHubApiService gitHubApiService, IExperiencesRepository experiencesRepository, IDevelopersRepository developersRepository)
         {
             _context = context;
-            developersService = new DevelopersService();
-            experiencesController = new ExperiencesController(_context);
+            this.experiencesRepository = experiencesRepository;
+            this.developersRepository = developersRepository;
+            this.gitHubApiService = gitHubApiService;
+            experiencesController = new ExperiencesController(gitHubApiService, experiencesRepository, developersRepository);
         }
 
         /// <summary>Gets all instances of developers.</summary>
@@ -175,10 +181,10 @@ namespace GitHubSearchWebApp.Controllers
                 experience.ProgrammingLanguage = programmingLanguage;
                 experience.DeveloperId = developer.Id;
                 experiences.Add(experience);
-                await experiencesController.PostAsync(experience);
+                experiencesController.PostAsync(experience);
             }
             developer.Experiences = experiences;
-            developer.AvatarURL = developersService.GetDeveloperAvatarURL(developer.GitLogin);
+            developer.AvatarURL = gitHubApiService.GetDeveloperAvatarURL(developer.GitLogin);
             _context.Update(developer);
             await _context.SaveChangesAsync();
         }
