@@ -82,6 +82,7 @@ namespace GitHubSearchWebApp.Repo
         {
             return new RestRequest("https://api.github.com/users/{user}/repos", Method.GET)
                                             .AddHeader("Authorization", $"Bearer {token}")
+                                            .AddHeader("Authorization", "Bearer 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")
                                             .AddUrlSegment("user", githubLoginDeveloper)
                                             .AddParameter("type", "all");
 
