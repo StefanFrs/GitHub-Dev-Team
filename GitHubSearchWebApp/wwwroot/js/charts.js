@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 
 var statisticsLanguages = {
-    "url": "https://localhost:5001/api/experiences/statistics/languages",
+    "url": "/api/experiences/statistics/languages",
     "method": "GET",
     "timeout": 0,
 };
@@ -48,7 +48,7 @@ function donutChart() {
 function addNewChart(language) {
     
     var statistics = {
-        "url": "https://localhost:5001/api/experiences/statistics/" + language.replace("+", "Plus").replace("+", "Plus").replace("#", "Sharp"),
+        "url": "/api/experiences/statistics/" + language.replace("+", "Plus").replace("+", "Plus").replace("#", "Sharp"),
         "method": "GET",
         "timeout": 0,
     };

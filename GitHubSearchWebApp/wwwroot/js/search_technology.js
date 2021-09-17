@@ -1,5 +1,5 @@
 ﻿var settingsUsers = {
-    "url": "https://localhost:5001/allDevelopers",
+    "url": "/allDevelopers",
     "method": "GET",
     "timeout": 0,
 };
@@ -44,7 +44,7 @@ $.ajax(settingsUsers).done(function (responses) {
         users.appendChild(newCard);
 
         var settingsLanguages = {
-            "url": "https://localhost:5001/api/experiences/programmingLanguages/" + response.gitLogin,
+            "url": "/api/experiences/programmingLanguages/" + response.gitLogin,
             "method": "GET",
             "timeout": 0,
             "headers": {

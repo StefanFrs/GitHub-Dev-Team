@@ -62,7 +62,7 @@ document.querySelector('#submitBtn').addEventListener('click', (e) => {
     if (search) {
         UI.resetResults();
         document.getElementById("spinner").setAttribute("style", "");
-        fetch("https://localhost:5001/api/gitrepository/" + search)
+        fetch("/api/gitrepository/" + search)
             .then((result) => result.json())
             .then((data) => {
                 console.log(data);

@@ -1,5 +1,5 @@
 ﻿var settingsUsers = {
-    "url": "https://localhost:5001/allDevelopers",
+    "url": "/allDevelopers",
     "method": "GET",
     "timeout": 0,
 };
@@ -36,7 +36,7 @@ $.ajax(settingsUsers).done(function (responses) {
 
                                             </ul>
                                     </div>
-</div>
+                                </div>
                                 <div class="col-lg-4 mt-3">
                                     <button type="button" onClick="FetchDataIntoModal('${response.gitLogin}', '${response.id}')" class="btn btn-dark btn-lg button-view" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-expand-arrows-alt"></i>
                                     View</button>
@@ -48,11 +48,11 @@ $.ajax(settingsUsers).done(function (responses) {
         users.appendChild(newCard);
 
         var settingsLanguages = {
-            "url": "https://localhost:5001/api/experiences/programmingLanguages/" + response.gitLogin,
+            "url": "/api/experiences/programmingLanguages/" + response.gitLogin,
             "method": "GET",
             "timeout": 0,
             "headers": {
-                "Authorization": "Bearer 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"
+                "Authorization": "Bearer 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"
             },
             data: {
                 index: index
@@ -110,11 +110,11 @@ function FetchDataIntoModal(gitLogin, userId) {
 
     // Header
     var settings = {
-        "url": "https://localhost:5001/developer/" + gitLogin,
+        "url": "/developer/" + gitLogin,
         "method": "GET",
         "timeout": 0,
         "headers": {
-            "Authorization": "Bearer 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"
+            "Authorization": "Bearer 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"
         },
     };
 
@@ -126,11 +126,11 @@ function FetchDataIntoModal(gitLogin, userId) {
     });
 
     var settings = {
-        "url": "https://localhost:5001/developer/repoCount/" + userId,
+        "url": "/developer/repoCount/" + userId,
         "method": "GET",
         "timeout": 0,
         "headers": {
-            "Authorization": "Bearer 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"
+            "Authorization": "Bearer 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"
         },
     };
 
@@ -140,11 +140,11 @@ function FetchDataIntoModal(gitLogin, userId) {
 
     //Skill list
     var settings = {
-        "url": "https://localhost:5001/api/experiences/programmingLanguages/" + gitLogin,
+        "url": "/api/experiences/programmingLanguages/" + gitLogin,
         "method": "GET",
         "timeout": 0,
         "headers": {
-            "Authorization": "Bearer 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"
+            "Authorization": "Bearer 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"
         },
         "data": {
             "gitLogin": gitLogin
@@ -177,11 +177,11 @@ function FetchDataIntoModal(gitLogin, userId) {
             document.getElementById("languageList").appendChild(modalListItem)
 
             var settings = {
-                "url": "https://localhost:5001/developer/codeSize/" + userId + "/" + language,
+                "url": "/developer/codeSize/" + userId + "/" + language,
                 "method": "GET",
                 "timeout": 0,
                 "headers": {
-                    "Authorization": "Bearer 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"
+                    "Authorization": "Bearer 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"
                 },
                 "data": {
                     language: language
@@ -196,11 +196,11 @@ function FetchDataIntoModal(gitLogin, userId) {
 
         // Show projects
         var settings = {
-            "url": "https://localhost:5001/api/experiences/" + gitLogin + "/" + response[0],
+            "url": "/api/experiences/" + gitLogin + "/" + response[0],
             "method": "GET",
             "timeout": 0,
             "headers": {
-                "Authorization": "Bearer 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"
+                "Authorization": "Bearer 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"
             },
         };
 
@@ -233,11 +233,11 @@ function FetchDataIntoModal(gitLogin, userId) {
 
     //Skill dropdown
     var settings = {
-        "url": "https://localhost:5001/api/experiences/programmingLanguages/" + gitLogin,
+        "url": "/api/experiences/programmingLanguages/" + gitLogin,
         "method": "GET",
         "timeout": 0,
         "headers": {
-            "Authorization": "Bearer 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"
+            "Authorization": "Bearer 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"
         },
     };
 
@@ -289,11 +289,11 @@ function UpdateModal(value) {
     var gitLogin = document.getElementsByClassName("dropdown-menu")[0].getAttribute("currentUser");
     document.getElementsByClassName("dropdown-menu")[0].setAttribute("currentLanguage", value)
     var settings = {
-        "url": "https://localhost:5001/developer/" + gitLogin,
+        "url": "/developer/" + gitLogin,
         "method": "GET",
         "timeout": 0,
         "headers": {
-            "Authorization": "Bearer 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"
+            "Authorization": "Bearer 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"
         },
         "data": {
             "value": value
@@ -312,11 +312,11 @@ function UpdateModal(value) {
 
 
     var settings = {
-        "url": "https://localhost:5001/api/experiences/" + gitLogin + "/" + value,
+        "url": "/api/experiences/" + gitLogin + "/" + value,
         "method": "GET",
         "timeout": 0,
         "headers": {
-            "Authorization": "Bearer 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"
+            "Authorization": "Bearer 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"
         },
     };
 
@@ -372,7 +372,7 @@ function UpdateReview() {
     var newReview = document.getElementById("newReview").value;
     console.log(gitLogin, language, programmingLanguageNumber, newReview);
     var settings = {
-        "url": "https://localhost:5001/api/experiences/" + gitLogin + "/" + language + "/" + newReview,
+        "url": "/api/experiences/" + gitLogin + "/" + language + "/" + newReview,
         "method": "PUT",
         "timeout": 0,
     };
