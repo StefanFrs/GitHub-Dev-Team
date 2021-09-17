@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace GitHubSearchWebApp.Migrations
 {
@@ -10,12 +11,12 @@ namespace GitHubSearchWebApp.Migrations
                 name: "Developer",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GitLogin = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AvatarURL = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FullName = table.Column<string>(type: "text", nullable: true),
+                    GitLogin = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    AvatarURL = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,12 +27,12 @@ namespace GitHubSearchWebApp.Migrations
                 name: "Experience",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CodeSize = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProgrammingLanguage = table.Column<int>(type: "int", nullable: false),
-                    DeveloperId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    CodeSize = table.Column<string>(type: "text", nullable: true),
+                    ProgrammingLanguage = table.Column<int>(type: "integer", nullable: false),
+                    DeveloperId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,12 +49,12 @@ namespace GitHubSearchWebApp.Migrations
                 name: "Project",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    URL = table.Column<string>(type: "text", nullable: true),
                     CodeSize = table.Column<long>(type: "bigint", nullable: false),
-                    ExperienceId = table.Column<int>(type: "int", nullable: true)
+                    ExperienceId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
