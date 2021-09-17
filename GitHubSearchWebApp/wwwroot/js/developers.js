@@ -10,7 +10,7 @@ $.ajax(settingsUsers).done(function (responses) {
 
     responses.forEach((response, index) => {
         var newCard = document.createElement("DIV");
-        
+
         newCard.classList.add("user-card");
         newCard.classList.add("mt-5");
         newCard.innerHTML = `
@@ -51,9 +51,7 @@ $.ajax(settingsUsers).done(function (responses) {
             "url": "/api/experiences/programmingLanguages/" + response.gitLogin,
             "method": "GET",
             "timeout": 0,
-            "headers": {
-                "Authorization": "Bearer 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"
-            },
+
             data: {
                 index: index
             }
@@ -113,9 +111,6 @@ function FetchDataIntoModal(gitLogin, userId) {
         "url": "/developer/" + gitLogin,
         "method": "GET",
         "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
     };
 
     $.ajax(settings).done(function (response) {
@@ -129,9 +124,6 @@ function FetchDataIntoModal(gitLogin, userId) {
         "url": "/developer/repoCount/" + userId,
         "method": "GET",
         "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
     };
 
     $.ajax(settings).done(function (response) {
@@ -143,9 +135,6 @@ function FetchDataIntoModal(gitLogin, userId) {
         "url": "/api/experiences/programmingLanguages/" + gitLogin,
         "method": "GET",
         "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
         "data": {
             "gitLogin": gitLogin
         }
@@ -180,9 +169,6 @@ function FetchDataIntoModal(gitLogin, userId) {
                 "url": "/developer/codeSize/" + userId + "/" + language,
                 "method": "GET",
                 "timeout": 0,
-                "headers": {
-                    "Authorization": "Bearer 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"
-                },
                 "data": {
                     language: language
                 }
@@ -199,9 +185,6 @@ function FetchDataIntoModal(gitLogin, userId) {
             "url": "/api/experiences/" + gitLogin + "/" + response[0],
             "method": "GET",
             "timeout": 0,
-            "headers": {
-                "Authorization": "Bearer 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"
-            },
         };
 
         $.ajax(settings).done(function (response) {
@@ -236,9 +219,6 @@ function FetchDataIntoModal(gitLogin, userId) {
         "url": "/api/experiences/programmingLanguages/" + gitLogin,
         "method": "GET",
         "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
     };
 
     $.ajax(settings).done(function (response) {
@@ -292,9 +272,6 @@ function UpdateModal(value) {
         "url": "/developer/" + gitLogin,
         "method": "GET",
         "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
         "data": {
             "value": value
         }
@@ -315,9 +292,6 @@ function UpdateModal(value) {
         "url": "/api/experiences/" + gitLogin + "/" + value,
         "method": "GET",
         "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
     };
 
     $.ajax(settings).done(function (response) {
@@ -379,7 +353,7 @@ function UpdateReview() {
     $.ajax(settings).done(function () {
         document.getElementById("closeModal").click();
     });
-    
+
 
 }
 
