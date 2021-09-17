@@ -44,14 +44,6 @@ namespace GitHubSearchWebApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GitHubSearchAPI", Version = "v1" });
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
-            });
             services.AddScoped<IDevelopersRepository, DbDevelopersRepository>();
             services.AddScoped<IExperiencesRepository, DbExperiencesRepository>();
             services.AddScoped<IGitHubApiService, GitHubApiService>();
@@ -86,8 +78,6 @@ namespace GitHubSearchWebApp
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GitHubSearchAPI v1"));
             }
             else
             {
