@@ -1,16 +1,64 @@
-﻿var settingsUsers = {
-    "url": "/allDevelopers",
-    "method": "GET",
-    "timeout": 0,
-};
+﻿//Settings variables
+var allSettings = {
+    getTypeSettings: {
+        "url": "/allDevelopers",
+        "method": "GET",
+        "timeout": 0,
+    },
+    putTypeSettings : {
+        "url": "/api/experiences/",
+        "method": "PUT",
+        "timeout": 0,
+    }
+}
 
+var AllLanguagesArray = [{ "language": "Java", "number": 1 },
+{ "language": "CPlusPlus", "number": 2 },
+{ "language": "C", "number": 3 },
+{ "language": "CSharp", "number": 4 },
+{ "language": "JavaScript", "number": 5 },
+{ "language": "CSS", "number": 6 },
+{ "language": "TypeScript", "number": 7 },
+{ "language": "Vue", "number": 8 },
+{ "language": "JupyterNotebook", "number": 9 },
+{ "language": "Python", "number": 10 },
+{ "language": "Go", "number": 11 },
+{ "language": "Ruby", "number": 12 },
+{ "language": "PHP", "number": 13 },
+{ "language": "Scala", "number": 14 },
+{ "language": "Shell", "number": 15 },
+{ "language": "Kotlin", "number": 16 },
+{ "language": "Swift", "number": 17 },
+{ "language": "Perl", "number": 18 },
+{ "language": "ObjectiveC", "number": 19 },
+{ "language": "Webassembly", "number": 20 },
+{ "language": "HTML", "number": 21 },
+{ "language": "Dart", "number": 22 },
+{ "language": "Dockerfile", "number": 23 },
+{ "language": "Haskell", "number": 24 },
+{ "language": "Starlark", "number": 24 },
+{ "language": "SystemVerilog", "number": 24 }]
 
-$.ajax(settingsUsers).done(function (responses) {
+// Initializing the colourDictionary
+var coloursDictionary = [];
+$.getJSON('js/colours.json').done(function (json) {
+    for (var language in json) {
+        if (json.hasOwnProperty(language)) {
+            var item = json[language];
+            coloursDictionary.push({
+                name: language,
+                colour: item.color
+            });
+        }
+    }
+});
+
+// Populating the main page with all the users
+$.ajax(allSettings.getTypeSettings).done(function (responses) {
     var users = document.getElementsByClassName("users")[0];
 
     responses.forEach((response, index) => {
         var newCard = document.createElement("DIV");
-        
         newCard.classList.add("user-card");
         newCard.classList.add("mt-5");
         newCard.innerHTML = `
@@ -44,44 +92,23 @@ $.ajax(settingsUsers).done(function (responses) {
                             
                         </div>
                             <hr class="card-hr">`;
-
         users.appendChild(newCard);
 
-        var settingsLanguages = {
-            "url": "/api/experiences/programmingLanguages/" + response.gitLogin,
-            "method": "GET",
-            "timeout": 0,
-            "headers": {
-                "Authorization": "Bearer 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"
-            },
-            data: {
-                index: index
-            }
-        };
+        var currentSettings = allSettings.getTypeSettings;
+        currentSettings.url = "/api/experiences/programmingLanguages/" + response.gitLogin;
+        currentSettings.data = { index: index }
 
-        $.ajax(settingsLanguages).done(function (response) {
+        $.ajax(currentSettings).done(function (response) {
             var skillsContainer = document.getElementsByClassName("technoList")[index];
 
             response.forEach(element => {
-                $.getJSON('js/colours.json', { element: element }).done(function (json) {
-                    var coloursDictionary = [];
-                    for (var language in json) {
-                        if (json.hasOwnProperty(language)) {
-                            var item = json[language];
-                            coloursDictionary.push({
-                                name: language,
-                                colour: item.color
-                            });
-                        }
-                    }
-
-                    var newLanguageColour = "";
-                    var newLanguageObject = [];
-                    if (coloursDictionary.some(e => e.name === element)) {
-                        newLanguageObject = coloursDictionary.filter(obj => {
-                            return obj.name === element;
-                        })
-                        newLanguageColour = newLanguageObject[0].colour;
+                var newLanguageColour = "";
+                var newLanguageObject = [];
+                if (coloursDictionary.some(e => e.name === element)) {
+                    newLanguageObject = coloursDictionary.filter(obj => {
+                        return obj.name === element;
+                    })
+                    newLanguageColour = newLanguageObject[0].colour;
                     }
                     else {
                         newLanguageColour = "gray";
@@ -97,61 +124,35 @@ $.ajax(settingsUsers).done(function (responses) {
                                                     <h5 class="language">${element}</h5>
                                                 </div>
                                             </div>`;
-                    skillsContainer.appendChild(newLanguage);
-                });
+                skillsContainer.appendChild(newLanguage);
             })
         });
     })
 })
 
+// On modal show fetch coresponding data
 function FetchDataIntoModal(gitLogin, userId) {
     document.getElementsByClassName("dropdown-menu")[0].setAttribute("currentUser", gitLogin);
 
-
-    // Header
-    var settings = {
-        "url": "/developer/" + gitLogin,
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
-    };
-
-    $.ajax(settings).done(function (response) {
+    //User info
+    var currentSettings = allSettings.getTypeSettings;
+    currentSettings.url = "/developer/" + gitLogin;
+    $.ajax(currentSettings).done(function (response) {
         document.getElementById("devName").innerHTML = response.fullName;
         document.getElementById("devGitName").innerHTML = response.gitLogin;
         document.getElementById("devEmail").innerHTML = response.email;
         document.getElementById("devPicture").setAttribute("src", response.avatarURL);
     });
 
-    var settings = {
-        "url": "/developer/repoCount/" + userId,
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
-    };
-
-    $.ajax(settings).done(function (response) {
+    currentSettings.url = "/developer/repoCount/" + userId;
+    $.ajax(currentSettings).done(function (response) {
         document.getElementById("repoCount").innerHTML = response;
     });
 
-    //Skill list
-    var settings = {
-        "url": "/api/experiences/programmingLanguages/" + gitLogin,
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
-        "data": {
-            "gitLogin": gitLogin
-        }
-    };
-
-    $.ajax(settings).done(function (response) {
+    //Fetch all the languages used by current developer
+    currentSettings.url = "/api/experiences/programmingLanguages/" + gitLogin;
+    currentSettings.data = { gitLogin: gitLogin, userId: userId };
+    $.ajax(currentSettings).done(function (response) {
         document.getElementById("languageList").innerHTML = "";
         response.forEach(language => {
 
@@ -176,35 +177,22 @@ function FetchDataIntoModal(gitLogin, userId) {
                                         </div>`;
             document.getElementById("languageList").appendChild(modalListItem)
 
-            var settings = {
-                "url": "/developer/codeSize/" + userId + "/" + language,
-                "method": "GET",
-                "timeout": 0,
-                "headers": {
-                    "Authorization": "Bearer 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"
-                },
-                "data": {
-                    language: language
-                }
-            };
+            //Fetch code size for every language used
+            var currentSettings = allSettings.getTypeSettings;
+            currentSettings.url = "/developer/codeSize/" + userId + "/" + language;
+            currentSettings.data = { language: language };
+            console.log(currentSettings)
 
-            $.ajax(settings).done(function (response) {
+            $.ajax(currentSettings).done(function (response) {
                 document.getElementById(language).innerHTML = response;
                 document.getElementById("id-" + language).setAttribute("id", response);
             });
         })
 
-        // Show projects
-        var settings = {
-            "url": "/api/experiences/" + gitLogin + "/" + response[0],
-            "method": "GET",
-            "timeout": 0,
-            "headers": {
-                "Authorization": "Bearer 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"
-            },
-        };
-
-        $.ajax(settings).done(function (response) {
+        //Fetch all the projects for the first language found 
+        var currentSettings = allSettings.getTypeSettings;
+        currentSettings.url = "/api/experiences/" + gitLogin + "/" + response[0];
+        $.ajax(currentSettings).done(function (response) {
             document.getElementById("projectsList").innerHTML = "";
             response.forEach(gitProject => {
                 var newGitProject = document.createElement("LI")
@@ -219,36 +207,17 @@ function FetchDataIntoModal(gitLogin, userId) {
                 document.getElementById("projectsList").appendChild(newGitProject);
             })
         });
-    }).then(function () {
-        var totalCode = 0;
-        var listItems = document.getElementById("languageList").childNodes;
-        for (var i = 0; i < listItems.length; i++) {
-            console.log(listItems[i].id)
-            console.log(listItems[i])
-            totalCode += listItems[i].value;
-
-        }
-        console.log(totalCode)
     });
 
-    //Skill dropdown
-    var settings = {
-        "url": "/api/experiences/programmingLanguages/" + gitLogin,
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
-    };
-
-    $.ajax(settings).done(function (response) {
+    //Skill dropdown possibilities
+    currentSettings.url = "/api/experiences/programmingLanguages/" + gitLogin,
+    $.ajax(currentSettings).done(function (response) {
         document.getElementsByClassName("dropdown-menu")[0].innerHTML = "";
-
         response.forEach(language => {
             var option = document.createElement("A");
             option.classList.add("dropdown-item");
             option.addEventListener("click", function () {
-                UpdateModal(this.getAttribute("data-value"));
+                Updates.UpdateModal(this.getAttribute("data-value"));
                 $(this).parents(".dropdown").find('.btn').html($(this).text());
             });
             option.setAttribute("data-value", language)
@@ -258,49 +227,32 @@ function FetchDataIntoModal(gitLogin, userId) {
     });
 }
 
-function UpdateModal(value) {
+//Update the review for the selected language
+function UpdateReview() {
+    var gitLogin = document.getElementsByClassName("dropdown-menu")[0].getAttribute("currentUser");
+    var language = document.getElementsByClassName("dropdown-menu")[0].getAttribute("currentLanguage");
+    var programmingLanguageNumber = AllLanguagesArray.filter(x => x.language === language)[0].number;
 
-    var AllLanguagesArray = [{ "language": "Java", "number": 1 },
-    { "language": "CPlusPlus", "number": 2 },
-    { "language": "C", "number": 3 },
-    { "language": "CSharp", "number": 4 },
-    { "language": "JavaScript", "number": 5 },
-    { "language": "CSS", "number": 6 },
-    { "language": "TypeScript", "number": 7 },
-    { "language": "Vue", "number": 8 },
-    { "language": "JupyterNotebook", "number": 9 },
-    { "language": "Python", "number": 10 },
-    { "language": "Go", "number": 11 },
-    { "language": "Ruby", "number": 12 },
-    { "language": "PHP", "number": 13 },
-    { "language": "Scala", "number": 14 },
-    { "language": "Shell", "number": 15 },
-    { "language": "Kotlin", "number": 16 },
-    { "language": "Swift", "number": 17 },
-    { "language": "Perl", "number": 18 },
-    { "language": "ObjectiveC", "number": 19 },
-    { "language": "Webassembly", "number": 20 },
-    { "language": "HTML", "number": 21 },
-    { "language": "Dart", "number": 22 },
-    { "language": "Dockerfile", "number": 23 },
-    { "language": "Haskell", "number": 24 },
-    { "language": "Starlark", "number": 24 },
-    { "language": "SystemVerilog", "number": 24 }]
+    var currentsettings = allSettings.putTypeSettings;
+    var newReview = document.getElementById("newReview").value;
+    currentsettings.url = "/api/experiences/" + gitLogin + "/" + language + "/" + newReview,
+        console.log(gitLogin, language, programmingLanguageNumber, newReview);
+
+    $.ajax(currentsettings).done(function () {
+        document.getElementById("closeModal").click();
+    });
+}
+
+//Update modal by choosing a language from dropdown
+function UpdateModal(value) {
     var gitLogin = document.getElementsByClassName("dropdown-menu")[0].getAttribute("currentUser");
     document.getElementsByClassName("dropdown-menu")[0].setAttribute("currentLanguage", value)
-    var settings = {
-        "url": "/developer/" + gitLogin,
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
-        "data": {
-            "value": value
-        }
-    };
+    var currentSettings = allSettings.getTypeSettings;
+    currentSettings.url = "/developer/" + gitLogin;
+    currentSettings.data = { value: value }
 
-    $.ajax(settings).done(function (response) {
+
+    $.ajax(currentSettings).done(function (response) {
         var programmingLanguageNumber = AllLanguagesArray.filter(x => x.language === value)[0].number;
         var description = response.experiences.filter(x => x.programmingLanguage === programmingLanguageNumber)[0].description;
         if (description == "") {
@@ -310,79 +262,25 @@ function UpdateModal(value) {
         document.getElementById("review").innerHTML = description;
     });
 
+    currentSettings.url = "/api/experiences/" + gitLogin + "/" + value,
 
-    var settings = {
-        "url": "/api/experiences/" + gitLogin + "/" + value,
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer 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"
-        },
-    };
-
-    $.ajax(settings).done(function (response) {
-        document.getElementById("projectsList").innerHTML = "";
-        response.forEach(gitProject => {
-            var newGitProject = document.createElement("LI")
-            newGitProject.classList.add("list-item")
-            newGitProject.setAttribute("target", "_blank")
-            newGitProject.innerHTML =
-                `<div class="card">
+        $.ajax(currentSettings).done(function (response) {
+            document.getElementById("projectsList").innerHTML = "";
+            response.forEach(gitProject => {
+                var newGitProject = document.createElement("LI")
+                newGitProject.classList.add("list-item")
+                newGitProject.setAttribute("target", "_blank")
+                newGitProject.innerHTML =
+                    `<div class="card">
                         <div class="card-body">
                             <h5 class="card-title">${gitProject.name}</h5>
                             <a href="${gitProject.url}">Check it out <b>nigga</b>.</a>
                         </div>
                     </div>`;
-            document.getElementById("projectsList").appendChild(newGitProject);
-        })
-    });
+                document.getElementById("projectsList").appendChild(newGitProject);
+            })
+        });
 }
-
-function UpdateReview() {
-    var AllLanguagesArray = [{ "language": "Java", "number": 1 },
-    { "language": "CPlusPlus", "number": 2 },
-    { "language": "C", "number": 3 },
-    { "language": "CSharp", "number": 4 },
-    { "language": "JavaScript", "number": 5 },
-    { "language": "CSS", "number": 6 },
-    { "language": "TypeScript", "number": 7 },
-    { "language": "Vue", "number": 8 },
-    { "language": "JupyterNotebook", "number": 9 },
-    { "language": "Python", "number": 10 },
-    { "language": "Go", "number": 11 },
-    { "language": "Ruby", "number": 12 },
-    { "language": "PHP", "number": 13 },
-    { "language": "Scala", "number": 14 },
-    { "language": "Shell", "number": 15 },
-    { "language": "Kotlin", "number": 16 },
-    { "language": "Swift", "number": 17 },
-    { "language": "Perl", "number": 18 },
-    { "language": "ObjectiveC", "number": 19 },
-    { "language": "Webassembly", "number": 20 },
-    { "language": "HTML", "number": 21 },
-    { "language": "Dart", "number": 22 },
-    { "language": "Dockerfile", "number": 23 },
-    { "language": "Haskell", "number": 24 },
-    { "language": "Starlark", "number": 24 },
-    { "language": "SystemVerilog", "number": 24 }]
-    var gitLogin = document.getElementsByClassName("dropdown-menu")[0].getAttribute("currentUser");
-    var language = document.getElementsByClassName("dropdown-menu")[0].getAttribute("currentLanguage");
-    var programmingLanguageNumber = AllLanguagesArray.filter(x => x.language === language)[0].number;
-
-    var newReview = document.getElementById("newReview").value;
-    console.log(gitLogin, language, programmingLanguageNumber, newReview);
-    var settings = {
-        "url": "/api/experiences/" + gitLogin + "/" + language + "/" + newReview,
-        "method": "PUT",
-        "timeout": 0,
-    };
-    $.ajax(settings).done(function () {
-        document.getElementById("closeModal").click();
-    });
-    
-
-}
-
 function myFunction() {
     var input, filter, ul, li, a, i, txtValue, liSkills, j, technoLi, ul1;
     input = document.getElementById("myInput");
