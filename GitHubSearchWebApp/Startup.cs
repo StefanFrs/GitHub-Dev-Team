@@ -55,6 +55,7 @@ namespace GitHubSearchWebApp
             services.AddScoped<IDevelopersRepository, DbDevelopersRepository>();
             services.AddScoped<IExperiencesRepository, DbExperiencesRepository>();
             services.AddScoped<IGitHubApiService, GitHubApiService>();
+            services.AddSingleton(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

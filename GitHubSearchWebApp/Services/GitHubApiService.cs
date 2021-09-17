@@ -1,5 +1,6 @@
 ﻿using GitHubSearchWebApp.Models;
 using GitHubSearchWebApp.Services;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
@@ -11,12 +12,25 @@ namespace GitHubSearchWebApp.Repo
 {
     public class GitHubApiService:IGitHubApiService
     {
+        private readonly IConfiguration Configuration;
         private String serverContent;
+        private string token;
 
         /// <summary>Initializes a new instance of the <see cref="GitHubApiService" /> class.</summary>
-        public GitHubApiService()
+        public GitHubApiService(IConfiguration configuration)
         {
+            Configuration = configuration;
             serverContent = "";
+            SetTokenString();
+        }
+
+        private void SetTokenString()
+        {
+            token = Environment.GetEnvironmentVariable("GITHUB_API_TOKEN");
+            if (token == null)
+            {
+                token = Configuration["GitHubApiAccesToken"]; 
+            }
         }
 
         /// <summary>Gets the experience by language.</summary>
@@ -64,9 +78,10 @@ namespace GitHubSearchWebApp.Repo
             serverContent = response.Content;
         }
 
-        private static IRestRequest FormRequest(string githubLoginDeveloper)
+        private IRestRequest FormRequest(string githubLoginDeveloper)
         {
             return new RestRequest("https://api.github.com/users/{user}/repos", Method.GET)
+                                            .AddHeader("Authorization", $"Bearer {token}")
                                             .AddHeader("Authorization", "Bearer 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")
                                             .AddUrlSegment("user", githubLoginDeveloper)
                                             .AddParameter("type", "all");
@@ -163,10 +178,10 @@ namespace GitHubSearchWebApp.Repo
 
             serverContent = response.Content;
         }
-        private static IRestRequest FormRequestUser(string githubLoginDeveloper)
+        private IRestRequest FormRequestUser(string githubLoginDeveloper)
         {
             return new RestRequest("https://api.github.com/users/{user}", Method.GET)
-                                            .AddHeader("Authorization", "Bearer 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")
+                                            .AddHeader("Authorization", $"Bearer ${token}")
                                             .AddUrlSegment("user", githubLoginDeveloper);
         }
 
