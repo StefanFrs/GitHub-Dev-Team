@@ -180,7 +180,7 @@ namespace GitHubSearchWebApp.Repo
         private IRestRequest FormRequestUser(string githubLoginDeveloper)
         {
             return new RestRequest("https://api.github.com/users/{user}", Method.GET)
-                                            .AddHeader("Authorization", $"Bearer ${token}")
+                                            .AddHeader("Authorization", $"Bearer {token}")
                                             .AddUrlSegment("user", githubLoginDeveloper);
         }
 

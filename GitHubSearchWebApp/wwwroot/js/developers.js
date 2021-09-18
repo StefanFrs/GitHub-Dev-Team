@@ -62,6 +62,7 @@ $.ajax(allSettings.getTypeSettings).done(function (responses) {
 
     responses.forEach((response, index) => {
         var newCard = document.createElement("DIV");
+
         newCard.classList.add("user-card");
         newCard.classList.add("mt-5");
         newCard.innerHTML = `
@@ -138,6 +139,7 @@ $.ajax(allSettings.getTypeSettings).done(function (responses) {
 function FetchDataIntoModal(gitLogin, userId) {
     document.getElementsByClassName("dropdown-menu")[0].setAttribute("currentUser", gitLogin);
 
+
     //User info
     var currentSettings = allSettings.getTypeSettings;
     currentSettings.url = "/developer/" + gitLogin;
@@ -192,6 +194,7 @@ function FetchDataIntoModal(gitLogin, userId) {
                 document.getElementById("id-" + language).setAttribute("id", response);
             });
         })
+
 
         //Fetch all the projects for the first language found 
         var currentSettings = allSettings.getTypeSettings;
@@ -255,7 +258,6 @@ function UpdateModal(value) {
     currentSettings.url = "/developer/" + gitLogin;
     currentSettings.data = { value: value }
 
-
     $.ajax(currentSettings).done(function (response) {
         var programmingLanguageNumber = AllLanguagesArray.filter(x => x.language === value)[0].number;
         var description = response.experiences.filter(x => x.programmingLanguage === programmingLanguageNumber)[0].description;
@@ -281,6 +283,7 @@ function UpdateModal(value) {
                             <a href="${gitProject.url}">Check it out <b>nigga</b>.</a>
                         </div>
                     </div>`;
+
                 document.getElementById("projectsList").appendChild(newGitProject);
             })
         });

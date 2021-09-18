@@ -47,9 +47,6 @@ $.ajax(settingsUsers).done(function (responses) {
             "url": "/api/experiences/programmingLanguages/" + response.gitLogin,
             "method": "GET",
             "timeout": 0,
-            "headers": {
-                "Authorization": "Bearer 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"
-            },
             data: {
                 index: index
             }

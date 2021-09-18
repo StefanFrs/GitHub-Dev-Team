@@ -67,9 +67,18 @@ namespace GitHubSearchWebApp.Repo
             Dictionary<string, string> developersStatistics = new Dictionary<string, string>();
             var developers = context.Developer.Include(d => d.Experiences);
             ProgrammingLanguages language = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), programmingLanguage);
+            context.Experience.Include(e => e.Projects);
+            var experiences = context.Experience;
             foreach (var developer in developers)
             {
-                var experience =  context.Experience.Include(e => e.Projects).FirstOrDefault(e => e.ProgrammingLanguage == language && e.DeveloperId == developer.Id);
+                var experience = new Experience();
+                foreach (var e in experiences)
+                {
+                    if ( e.ProgrammingLanguage == language && e.DeveloperId == developer.Id)
+                    {
+                        experience = e;
+                    }
+                }
                 if (experience != null)
                 {
                     developersStatistics.Add(developer.FullName, experience.CodeSize + " " + experience.Projects.Count);
@@ -86,7 +95,7 @@ namespace GitHubSearchWebApp.Repo
             {
                 foreach (var experience in developer.Experiences)
                 {
-                    context.Experience.Include(e => e.Projects).FirstOrDefault(e => e.Id == experience.Id);
+                    context.Experience.Include(e => e.Projects);
                     string language = experience.ProgrammingLanguage.ToString();
                     if (codeSizesByLanguage.ContainsKey(language))
                     {

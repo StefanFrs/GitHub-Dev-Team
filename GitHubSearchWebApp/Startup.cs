@@ -35,27 +35,41 @@ namespace GitHubSearchWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-        	services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                 options.UseNpgsql(GetConnectionString()));
+            Configuration.GetConnectionString("DefaultConnection");
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
-			services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GitHubSearchAPI", Version = "v1" });
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
-            });
+            services.AddControllers();
             services.AddScoped<IDevelopersRepository, DbDevelopersRepository>();
             services.AddScoped<IExperiencesRepository, DbExperiencesRepository>();
             services.AddScoped<IGitHubApiService, GitHubApiService>();
             services.AddSingleton(Configuration);
+            services.AddSignalR();
+        }
+        private string GetConnectionString()
+        {
+            var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+            if (connectionString != null)
+            {
+                return ConvertConnectionString(connectionString);
+            }
+            return Configuration.GetConnectionString("DefaultConnection");
+        }
+
+        public static string ConvertConnectionString(string connectionString)
+        {
+            var uri = new Uri(connectionString);
+            string Database = uri.AbsolutePath.TrimStart('/');
+            string Host = uri.Host;
+            int Port = uri.Port;
+            string UserId = uri.UserInfo.Split(":")[0];
+            string Password = uri.UserInfo.Split(":")[1];
+            string connection = $"Database={Database}; Host={Host}; Port={Port}; User Id={UserId}; Password={Password}; SSL Mode=Require; Trust Server Certificate=true;";
+            return connection;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,8 +79,6 @@ namespace GitHubSearchWebApp
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GitHubSearchAPI v1"));
             }
             else
             {
@@ -85,15 +97,15 @@ namespace GitHubSearchWebApp
             app.UseStaticFiles();
             app.UseRouting();
 
-			app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-            	endpoints.MapControllers();
-				endpoints.MapControllerRoute(
-				                    name: "default",
-				                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                                    name: "default",
+                                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

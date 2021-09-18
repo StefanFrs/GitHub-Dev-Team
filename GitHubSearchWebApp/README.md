@@ -36,10 +36,10 @@ heroku container:login
 
 Push container
 ```
-heroku container:push -a webapp-devteam web
+heroku container:push -a webapp-github-dev-team web
 ```
 
 Release the container
 ```
-heroku container:release -a webapp-devteam web
+heroku container:release -a webapp-github-dev-team web
 ```
