@@ -4,6 +4,9 @@ var allSettings = {
         "url": "/allDevelopers",
         "method": "GET",
         "timeout": 0,
+        "headers": {
+            "Authorization": "Bearer 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"
+        },
     },
     putTypeSettings : {
         "url": "/api/experiences/",
@@ -104,26 +107,27 @@ $.ajax(allSettings.getTypeSettings).done(function (responses) {
             response.forEach(element => {
                 var newLanguageColour = "";
                 var newLanguageObject = [];
-                if (coloursDictionary.some(e => e.name === element)) {
+                if (coloursDictionary.some(e => e.name === element))
+                {
                     newLanguageObject = coloursDictionary.filter(obj => {
                         return obj.name === element;
                     })
                     newLanguageColour = newLanguageObject[0].colour;
-                    }
-                    else {
-                        newLanguageColour = "gray";
-                    }
-                    var newLanguage = document.createElement("LI");
-                    newLanguage.classList.add("skill-item");
-                    newLanguage.classList.add("d-flex");
-                    newLanguage.classList.add("align-items-center");
-                    newLanguage.innerHTML = `<div class="skill-item d-flex align-items-center">
-                                                <div class="dot mr-2" style="background:${newLanguageColour}">
-                                                </div>
-                                                <div class="skill-name ">
-                                                    <h5 class="language">${element}</h5>
-                                                </div>
-                                            </div>`;
+                }
+                else {
+                    newLanguageColour = "gray";
+                }
+                var newLanguage = document.createElement("LI");
+                newLanguage.classList.add("skill-item");
+                newLanguage.classList.add("d-flex");
+                newLanguage.classList.add("align-items-center");
+                newLanguage.innerHTML = `<div class="skill-item d-flex align-items-center">
+                                            <div class="dot mr-2" style="background:${newLanguageColour}">
+                                            </div>
+                                            <div class="skill-name ">
+                                                <h5 class="language">${element}</h5>
+                                            </div>
+                                         </div>`;
                 skillsContainer.appendChild(newLanguage);
             })
         });
@@ -217,7 +221,7 @@ function FetchDataIntoModal(gitLogin, userId) {
             var option = document.createElement("A");
             option.classList.add("dropdown-item");
             option.addEventListener("click", function () {
-                Updates.UpdateModal(this.getAttribute("data-value"));
+                UpdateModal(this.getAttribute("data-value"));
                 $(this).parents(".dropdown").find('.btn').html($(this).text());
             });
             option.setAttribute("data-value", language)
@@ -281,6 +285,7 @@ function UpdateModal(value) {
             })
         });
 }
+
 function myFunction() {
     var input, filter, ul, li, a, i, txtValue, liSkills, j, technoLi, ul1;
     input = document.getElementById("myInput");
@@ -306,5 +311,4 @@ function myFunction() {
             document.getElementById("row" + i).setAttribute("style", "");
         }
     }
-    console.log(user);
 }
