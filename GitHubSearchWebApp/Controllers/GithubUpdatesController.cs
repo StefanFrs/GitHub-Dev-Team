@@ -1,4 +1,5 @@
 ﻿using GitHubSearchWebApp.Models;
+using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -14,9 +15,9 @@ namespace GitHubSearchWebApp.Controllers
     [ApiController]
     public class GithubUpdatesController : ControllerBase
     {
-        private readonly IHubContext<Hub> hubContext;
+        private readonly IHubContext<UpdatesHub> hubContext;
 
-        public GithubUpdatesController(IHubContext<Hub> hubContext)
+        public GithubUpdatesController(IHubContext<UpdatesHub> hubContext)
         {
             this.hubContext = hubContext;
         }

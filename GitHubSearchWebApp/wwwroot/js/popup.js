@@ -1,6 +1,6 @@
 ﻿console.log("popups works");
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/messagehub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("/updates").build();
 
 connection.start().then(function () {
     console.log("connection established");
@@ -9,9 +9,11 @@ connection.start().then(function () {
 });
 
 connection.on("RepositoryUpdate", function (data) {
-    $("#alerts").append(
-        `<div class="alert alert-primary alert-dismissible fade show" role="alert">
-            User ${data.user} made a push in the repository ${data.repo} at ${data.data}.
+    $("#alerts").prepend(
+        `<div class="text-center alert alert-primary alert-dismissible fade show" role="alert">
+            User ${data.user} made a push in the repository ${data.repository} at ${data.pushedAt}.
+            <i>Total change:${data.size}Kb</i> <br>
+            <strong>Please refresh :) </strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
