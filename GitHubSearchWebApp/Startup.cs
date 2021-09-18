@@ -20,6 +20,7 @@ using System.IO;
 using GitHubSearchWebApp.Repositories;
 using GitHubSearchWebApp.Repo;
 using GitHubSearchWebApp.Services;
+using Microsoft.AspNetCore.SignalR;
 
 namespace GitHubSearchWebApp
 {
@@ -36,7 +37,7 @@ namespace GitHubSearchWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                 options.UseNpgsql(GetConnectionString()));
+                  options.UseNpgsql(GetConnectionString()));
             Configuration.GetConnectionString("DefaultConnection");
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -110,6 +111,7 @@ namespace GitHubSearchWebApp
                                     name: "default",
                                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<UpdatesHub>("/updates");
             });
         }
     }
