@@ -26,6 +26,10 @@
         </div>
     </header>
     <div class="container">
+        <div id="alerts">
+
+        </div>
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -36,6 +40,7 @@
         body {
             background-color: #0d1117 !important;
         }
+
         .left-side-header a {
             color: white;
             text-decoration: none;
@@ -85,7 +90,9 @@
             }
     </style>
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="./lib/microsoft-signalr/signalr.min.js"></script>
     <script src="~/js/version.js"></script>
-        
+    <script src="~/js/popup.js"></script>
+
 </body>
 </html>
