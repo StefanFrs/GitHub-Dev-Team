@@ -49,7 +49,10 @@ namespace GitHubSearchWebApp
             services.AddScoped<IGitHubApiService, GitHubApiService>();
             services.AddSingleton(Configuration);
             services.AddSignalR();
-        }
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddGitHubWebHooks();
+            }
         private string GetConnectionString()
         {
             var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");

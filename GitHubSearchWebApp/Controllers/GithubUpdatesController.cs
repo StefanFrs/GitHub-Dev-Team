@@ -1,6 +1,8 @@
 ﻿using GitHubSearchWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.WebHooks;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,17 @@ namespace GitHubSearchWebApp.Controllers
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
+        }
+
+        [GitHubWebHook]
+        public IActionResult GitHub(string id, JObject data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
         }
 
         // POST api/<GithubUpdatesController>
