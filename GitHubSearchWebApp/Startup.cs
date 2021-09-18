@@ -48,6 +48,7 @@ namespace GitHubSearchWebApp
             services.AddScoped<IExperiencesRepository, DbExperiencesRepository>();
             services.AddScoped<IGitHubApiService, GitHubApiService>();
             services.AddSingleton(Configuration);
+            services.AddSignalR();
         }
         private string GetConnectionString()
         {
