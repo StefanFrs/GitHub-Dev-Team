@@ -64,7 +64,7 @@ namespace GitHubSearchWebApp.Migrations
                         column: x => x.ExperienceId,
                         principalTable: "Experience",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
