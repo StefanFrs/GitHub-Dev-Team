@@ -21,6 +21,7 @@ using GitHubSearchWebApp.Repositories;
 using GitHubSearchWebApp.Repo;
 using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.SignalR;
+using System.Web.Http;
 
 namespace GitHubSearchWebApp
 {
@@ -50,7 +51,9 @@ namespace GitHubSearchWebApp
             services.AddScoped<IGitHubApiService, GitHubApiService>();
             services.AddSingleton(Configuration);
             services.AddSignalR();
-        }
+            services.AddMvc()
+                .AddGitHubWebHooks();
+            }
         private string GetConnectionString()
         {
             var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");

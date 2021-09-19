@@ -11,7 +11,7 @@ connection.start().then(function () {
 connection.on("RepositoryUpdate", function (data) {
     $("#alerts").prepend(
         `<div class="text-center alert alert-primary alert-dismissible fade show" role="alert">
-            User ${data.user} made a push in the repository ${data.repository} at ${data.pushedAt}.
+            User ${data.user} made a push in the repository ${data.repository}.
             <i>Total change:${data.size}Kb</i> <br>
             <strong>Please refresh :) </strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">

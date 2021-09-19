@@ -2,6 +2,9 @@
 using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.WebHooks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,23 +25,38 @@ namespace GitHubSearchWebApp.Controllers
             this.hubContext = hubContext;
         }
 
-        // GET: api/<GithubUpdatesController>
+        /// <summary>
+        /// Returns if the service is on.
+        /// </summary>
+        /// <returns>Status of the service.</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get(string id, string e, JObject data)
         {
-            return new string[] { "value1", "value2" };
+            var healthCheck = new HealthCheckResult(HealthStatus.Healthy);
+
+            return Ok(healthCheck);
+        }
+
+        [GitHubWebHook]
+        public IActionResult GitHub(string id, JObject data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
         }
 
         // POST api/<GithubUpdatesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] System.Text.Json.JsonElement data)
         {
             var gitPush = new GitPush
             {
-                User = "Updated Repo User",
-                Repository = "Updated Repo",
-                Size = 256,
-                PushedAt = DateTime.Now
+                User = data.GetProperty("repository").GetProperty("owner").GetProperty("login").GetString(),
+                Repository = data.GetProperty("repository").GetProperty("name").GetString(),
+                Size = data.GetProperty("repository").GetProperty("size").GetInt64(),
             };
             hubContext.Clients.All.SendAsync("RepositoryUpdate", gitPush);
         }
