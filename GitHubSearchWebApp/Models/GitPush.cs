@@ -13,6 +13,6 @@ namespace GitHubSearchWebApp.Models
 
         public long Size { get; set; }
 
-        public DateTime PushedAt { get; set; }
+        public string PushedAt { get; set; }
     }
 }
