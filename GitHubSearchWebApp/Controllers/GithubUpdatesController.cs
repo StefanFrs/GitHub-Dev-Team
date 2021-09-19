@@ -30,7 +30,7 @@ namespace GitHubSearchWebApp.Controllers
         /// </summary>
         /// <returns>Status of the service.</returns>
         [GitHubWebHook, HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string id, string e, JObject data)
         {
             var healthCheck = new HealthCheckResult(HealthStatus.Healthy);
 

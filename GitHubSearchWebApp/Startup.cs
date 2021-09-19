@@ -21,6 +21,7 @@ using GitHubSearchWebApp.Repositories;
 using GitHubSearchWebApp.Repo;
 using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.SignalR;
+using System.Web.Http;
 
 namespace GitHubSearchWebApp
 {
@@ -51,7 +52,6 @@ namespace GitHubSearchWebApp
             services.AddSingleton(Configuration);
             services.AddSignalR();
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddGitHubWebHooks();
             }
         private string GetConnectionString()
