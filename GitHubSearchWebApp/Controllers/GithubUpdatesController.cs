@@ -43,7 +43,7 @@ namespace GitHubSearchWebApp.Controllers
         }
 
         // POST api/<GithubUpdatesController>
-        [HttpPost]
+        [GitHubWebHook, HttpPost]
         public void Post([FromBody] string value)
         {
             var gitPush = new GitPush
