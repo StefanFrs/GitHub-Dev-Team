@@ -56,8 +56,8 @@ namespace GitHubSearchWebApp.Controllers
             {
                 User = data.GetProperty("repository").GetProperty("owner").GetProperty("login").GetString(),
                 Repository = data.GetProperty("repository").GetProperty("name").GetString(),
-                Size = data.GetProperty("size").GetInt64(),
-                PushedAt = data.GetProperty("pushed_at").GetDateTime().ToString("dd MMM yyyy HH:mm")
+                Size = data.GetProperty("size").GetProperty("repository").GetInt64(),
+                PushedAt = data.GetProperty("pushed_at").GetProperty("repository").GetDateTime().ToString("dd MMM yyyy HH:mm")
             };
             hubContext.Clients.All.SendAsync("RepositoryUpdate", gitPush);
         }
