@@ -57,6 +57,7 @@ namespace GitHubSearchWebApp.Controllers
                 User = data.GetProperty("repository").GetProperty("owner").GetProperty("login").GetString(),
                 Repository = data.GetProperty("repository").GetProperty("name").GetString(),
                 Size = data.GetProperty("repository").GetProperty("size").GetInt64(),
+                Commits = data.GetProperty("commits").GetArrayLength()
             };
             hubContext.Clients.All.SendAsync("RepositoryUpdate", gitPush);
         }
