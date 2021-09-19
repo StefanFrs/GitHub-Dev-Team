@@ -29,8 +29,8 @@ namespace GitHubSearchWebApp.Controllers
         /// Returns if the service is on.
         /// </summary>
         /// <returns>Status of the service.</returns>
-        [HttpGet]
-        public IActionResult Get()
+        [GitHubWebHook, HttpPost]
+        public IActionResult Post()
         {
             var healthCheck = new HealthCheckResult(HealthStatus.Healthy);
 
