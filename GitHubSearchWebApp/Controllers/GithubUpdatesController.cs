@@ -3,6 +3,7 @@ using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.WebHooks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,16 @@ namespace GitHubSearchWebApp.Controllers
             this.hubContext = hubContext;
         }
 
-        // GET: api/<GithubUpdatesController>
+        /// <summary>
+        /// Returns if the service is on.
+        /// </summary>
+        /// <returns>Status of the service.</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var healthCheck = new HealthCheckResult(HealthStatus.Healthy);
+
+            return Ok(healthCheck);
         }
 
         [GitHubWebHook]
