@@ -29,7 +29,7 @@ namespace GitHubSearchWebApp.Controllers
         /// Returns if the service is on.
         /// </summary>
         /// <returns>Status of the service.</returns>
-        [GitHubWebHook, HttpGet]
+        [HttpGet]
         public IActionResult Get(string id, string e, JObject data)
         {
             var healthCheck = new HealthCheckResult(HealthStatus.Healthy);
@@ -49,7 +49,7 @@ namespace GitHubSearchWebApp.Controllers
         }
 
         // POST api/<GithubUpdatesController>
-        [GitHubWebHook, HttpPost]
+        [HttpPost]
         public void Post([FromBody] string value)
         {
             var gitPush = new GitPush
