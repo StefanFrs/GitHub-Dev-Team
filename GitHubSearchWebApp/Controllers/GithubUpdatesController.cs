@@ -54,7 +54,7 @@ namespace GitHubSearchWebApp.Controllers
         {
             var gitPush = new GitPush
             {
-                User = "Updated Repo User",
+                User = data.GetProperty("repository").GetProperty("owner").GetProperty("login").GetString(),
                 Repository = "Updated Repo",
                 Size = 256,
                 PushedAt = DateTime.Now
