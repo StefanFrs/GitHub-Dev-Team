@@ -50,7 +50,7 @@ namespace GitHubSearchWebApp.Controllers
 
         // POST api/<GithubUpdatesController>
         [HttpPost]
-        public void Post([FromBody] JObject data)
+        public void Post([FromBody] System.Text.Json.JsonElement data)
         {
             var gitPush = new GitPush
             {
