@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GitHubSearchWebApp.Repo
 {
-    public class GitHubApiService:IGitHubApiService
+    public class GitHubApiService : IGitHubApiService
     {
         private readonly IConfiguration Configuration;
         private String serverContent;
@@ -24,12 +24,14 @@ namespace GitHubSearchWebApp.Repo
             SetTokenString();
         }
 
+
+
         private void SetTokenString()
         {
             token = Environment.GetEnvironmentVariable("GITHUB_API_TOKEN");
             if (token == null)
             {
-                token = Configuration["GitHubApiAccesToken"]; 
+                token = Configuration["GitHubApiAccesToken"];
             }
         }
 
