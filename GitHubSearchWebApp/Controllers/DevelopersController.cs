@@ -35,6 +35,10 @@ namespace GitHubSearchWebApp.Controllers
             experiencesController = new ExperiencesController(gitHubApiService, experiencesRepository, developersRepository);
         }
 
+        public DevelopersController()
+        {
+        }
+
         /// <summary>Gets all instances of developers.</summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet("allDevelopers")]

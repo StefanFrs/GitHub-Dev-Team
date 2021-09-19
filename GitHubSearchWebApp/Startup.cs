@@ -38,7 +38,7 @@ namespace GitHubSearchWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseNpgsql(GetConnectionString()));
+                  options.UseSqlServer(GetConnectionString()));
             Configuration.GetConnectionString("DefaultConnection");
             services.AddDatabaseDeveloperPageExceptionFilter();
 
