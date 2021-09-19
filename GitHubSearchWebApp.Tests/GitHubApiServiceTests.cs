@@ -14,8 +14,8 @@ namespace GitHubSearchWebApp.Tests
         {
             //Asume
             string content = LoadJsonFromResourceJson();
-            IConfiguration config;
-            var service = new GitHubApiService(config);
+
+            var service = new GitHubApiService("place-your-token-here");
 
             // Act
             var output = service.ConvertServerContentToAvatarURL();
