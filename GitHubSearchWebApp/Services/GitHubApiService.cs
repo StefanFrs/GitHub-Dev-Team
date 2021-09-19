@@ -24,7 +24,11 @@ namespace GitHubSearchWebApp.Repo
             SetTokenString();
         }
 
-
+        public GitHubApiService(string tokenGit)
+        {
+            serverContent = "";
+            SetTokenGitHub(tokenGit);
+        }
 
         private void SetTokenString()
         {
@@ -33,6 +37,11 @@ namespace GitHubSearchWebApp.Repo
             {
                 token = Configuration["GitHubApiAccesToken"];
             }
+        }
+
+        private void SetTokenGitHub(string tokenGit)
+        {
+            token = tokenGit;
         }
 
         /// <summary>Gets the experience by language.</summary>
@@ -100,7 +109,6 @@ namespace GitHubSearchWebApp.Repo
             {
                 return new List<string>();
             }
-
 
             return Enumerable.Range(1, numberOfRepositories).Select(index =>
             {

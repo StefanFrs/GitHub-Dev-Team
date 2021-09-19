@@ -17,6 +17,10 @@ namespace GitHubSearchWebApp.Repositories
             this.context = context;
         }
 
+        public DbDevelopersRepository()
+        {
+        }
+
         public IEnumerable<Developer> GetAll()
         {
             return context.Developer.ToList();
