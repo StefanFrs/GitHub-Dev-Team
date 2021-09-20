@@ -15,6 +15,7 @@ namespace GitHubSearchWebApp.Repo
         private readonly IConfiguration Configuration;
         private String serverContent;
         private string token;
+        List<Project> projectsByLanguage;
 
         /// <summary>Initializes a new instance of the <see cref="GitHubApiService" /> class.</summary>
         public GitHubApiService(IConfiguration configuration)
@@ -22,12 +23,14 @@ namespace GitHubSearchWebApp.Repo
             Configuration = configuration;
             serverContent = "";
             SetTokenString();
+            projectsByLanguage = new List<Project>();
         }
 
         public GitHubApiService(string tokenGit)
         {
             serverContent = "";
             SetTokenGitHub(tokenGit);
+            projectsByLanguage = new List<Project>();
         }
 
         private void SetTokenString()
@@ -131,7 +134,7 @@ namespace GitHubSearchWebApp.Repo
                 return new List<Project>();
             }
 
-            List<Project> projectsByLanguage = GetProjects(language, developerRepositories, numberOfRepositories);
+            projectsByLanguage = GetProjects(language, developerRepositories, numberOfRepositories);
 
             return projectsByLanguage.ToArray();
 
@@ -174,8 +177,7 @@ namespace GitHubSearchWebApp.Repo
         /// <returns>The code size as long.<br /></returns>
         public long GetCodeSizeByDeveloperByLanguage(string githubLoginDeveloper, string programmingLanguage)
         {
-            IEnumerable<Project> projects = GetProjectsByDeveloperByLanguage(githubLoginDeveloper, programmingLanguage);
-            return projects.ToArray().Sum(p => p.CodeSize);
+            return projectsByLanguage.ToArray().Sum(p => p.CodeSize);
         }
 
         private void GetUser(string githubLoginDeveloper)

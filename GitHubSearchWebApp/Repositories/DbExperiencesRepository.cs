@@ -32,19 +32,10 @@ namespace GitHubSearchWebApp.Repo
 
         public void Add(Experience experience)
         {
-            SetExperienceCodeSizeAndProjects(experience);
             context.Add(experience);
             context.SaveChanges();
-           
         }
-        private void SetExperienceCodeSizeAndProjects(Experience experience)
-        {
-            Developer developer = context.Developer.FirstOrDefault(m => m.Id == experience.DeveloperId);
-            IEnumerable<Project> projects = gitHubApi.GetProjectsByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
-            long codeSize = gitHubApi.GetCodeSizeByDeveloperByLanguage(developer.GitLogin, experience.ProgrammingLanguage.ToString());
-            experience.CodeSize = codeSize.ToString();
-            experience.Projects = projects.ToList();
-        }
+        
 
         public void Update(string githubLoginDeveloper, string programmingLanguage, string description)
         {
