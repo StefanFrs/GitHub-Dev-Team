@@ -11,7 +11,7 @@ namespace GitHubSearchWebApp.Models
 
         public string Repository { get; set; }
 
-        public long Size { get; set; }
+        public int Commits { get; set; }
 
         public int Commits { get; set; }
 
