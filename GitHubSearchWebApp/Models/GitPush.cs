@@ -13,5 +13,7 @@ namespace GitHubSearchWebApp.Models
 
         public int Commits { get; set; }
 
+        public int Commits { get; set; }
+
     }
 }
