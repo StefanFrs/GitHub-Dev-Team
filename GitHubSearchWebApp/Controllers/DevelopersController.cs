@@ -139,7 +139,8 @@ namespace GitHubSearchWebApp.Controllers
             return View(developer);
         }
 
-        private async Task AddDeveloperExperience(Developer developer)
+        [NonAction]
+        public async Task AddDeveloperExperience(Developer developer)
         {
             ISet<ProgrammingLanguages> programmingLanguagesDeveloper = experiencesController.GetProgrammingLanguagesAsSet(developer.GitLogin);
             List<Experience> experiences = new List<Experience>();
