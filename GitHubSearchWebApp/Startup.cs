@@ -38,7 +38,7 @@ namespace GitHubSearchWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseNpgsql(GetConnectionString()));
+                  options.UseSqlServer(GetConnectionString()));
             Configuration.GetConnectionString("DefaultConnection");
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -53,7 +53,7 @@ namespace GitHubSearchWebApp
             services.AddSignalR();
             services.AddMvc()
                 .AddGitHubWebHooks();
-            }
+        }
         private string GetConnectionString()
         {
             var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
@@ -113,6 +113,7 @@ namespace GitHubSearchWebApp
                 endpoints.MapRazorPages();
                 endpoints.MapHub<UpdatesHub>("/updates");
             });
+            DataTools.SeedData(app);
         }
     }
 }
