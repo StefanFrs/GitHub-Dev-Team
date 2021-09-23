@@ -23,6 +23,7 @@ using GitHubSearchWebApp.Services;
 using Microsoft.AspNetCore.SignalR;
 using System.Web.Http;
 using GitHubSearchWebApp.Controllers;
+using GitHubSearchWebApp.UserManagement;
 
 namespace GitHubSearchWebApp
 {
@@ -55,7 +56,7 @@ namespace GitHubSearchWebApp
             services.AddSignalR();
             services.AddMvc()
                 .AddGitHubWebHooks();
-            }
+        }
         private string GetConnectionString()
         {
             var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
@@ -117,6 +118,7 @@ namespace GitHubSearchWebApp
                 endpoints.MapRazorPages();
                 endpoints.MapHub<UpdatesHub>("/updates");
             });
+            app.CreateBasicRolesAsync();
         }
     }
 }

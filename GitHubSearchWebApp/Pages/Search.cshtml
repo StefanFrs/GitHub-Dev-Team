@@ -1,0 +1,84 @@
+﻿@page
+@model GitHubSearchWebApp.Pages.SearchModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+<link href="~/css/style.css" rel="stylesheet" type="text/css" />
+<body>
+    <header class="site-header d-flex justify-content-between flex-wrap">
+        <div class="left-side-header d-flex align-items-center">
+            <a href="/"><h2>Development Team</h2></a>
+            <h4 class="m-0 pl-2 font-italic" id="version"></h4>
+        </div>
+        <div class="right-side-header d-flex">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                @if (User.IsInRole("TeamLead"))
+                {
+                    <div>
+                        <a href="/developers"><button type="button" class="btn btn-dark mr-3"></button></a>
+                    </div>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+                    <div>
+                        <a href="/users"> <button type="button" class="btn btn-dark mr-3"> Manage Users </button></a>
+                    </div>
+                }
+            }
+            <div>
+                <a href="statistics.html"> <button type="button" class="btn btn-dark mr-3">Statistics</button></a>
+            </div>
+            <partial name="_LoginPartial" />
+        </div>
+    </header>
+    <div class="container">
+        <div id="alerts">
+
+        </div>
+
+        <main role="main" class="pb-3">
+            <div class="main-content">
+                <div id="alerts">
+
+                </div>
+                <div class="google-logo d-flex justify-content-center">
+                    <img src="images/github-logo-white.png" id="account-img" alt="Account" />
+                </div>
+                <div class="search text-center">
+                    <div class=" search-section d-flex justify-content-center align-items-center">
+                        <img src="images/google-search.jpg" class="ml-3" id="search-logo" alt="Account" />
+                        <input type="text" class="m-0 pl-3" id="search_bar" />
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center"> <input type="submit" class="mt-3 btn btn-dark" id="submitBtn"></div>
+
+                <div class="text-center" id="spinner" style="display: none">
+                    <div class="spinner-border" role="status" style="margin-top: 5%">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-group mt-5 mb-5 text-center" id="search-results-list">
+
+            </div>
+        </main>
+    </div>
+
+</body>
+
+
+@section Scripts {
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+    <script src="~/js/version.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/popup.js"></script>
+    <script src="~/js/search.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+}
+
