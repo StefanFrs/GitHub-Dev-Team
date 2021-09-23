@@ -99,7 +99,7 @@ namespace GitHubSearchWebApp
 
             var defaultFilesOptions = new DefaultFilesOptions();
             defaultFilesOptions.DefaultFileNames = new List<string>();
-            defaultFilesOptions.DefaultFileNames.Add("index.html");
+            // defaultFilesOptions.DefaultFileNames.Add("home.html");
 
             app.UseDefaultFiles(defaultFilesOptions);
             app.UseStaticFiles();

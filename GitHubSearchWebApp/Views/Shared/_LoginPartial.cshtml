@@ -22,11 +22,17 @@
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
+        <div class="d-flex">
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Register">
+                    <button type="button" class="btn btn-outline-dark mr-3 text-light">Register</button>
+                </a>
+            </li>
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Login">
+                    <button type="button" class="btn btn-outline-dark mr-3 text-light">Login</button>
+                </a>
+            </li>
+        </div>
     }
 </ul>

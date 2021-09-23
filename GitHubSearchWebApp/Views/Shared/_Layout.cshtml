@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,20 +10,24 @@
     <title>@ViewData["Title"] - DevsWebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("heads", required: false)
 </head>
 <body style="background: #161b22">
     <header class="site-header d-flex justify-content-between flex-wrap">
         <div class="left-side-header d-flex align-items-center">
-            <a href="index.html"><h2>Development Team</h2></a>
+            <a href="/"><h2>Development Team</h2></a>
             <h4 class="m-0 pl-2 font-italic" id="version"></h4>
         </div>
         <div class="right-side-header d-flex">
             <div>
                 <a href="search.html"> <button type="button" class="btn btn-dark mr-3"> Search in Git </button></a>
             </div>
-            <div>
-                <a href="/developers"> <button type="button" class="btn btn-dark mr-3"> Manage Team </button></a>
-            </div>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div>
+                    <a href="/developers"> <button type="button" class="btn btn-dark mr-3"> Manage Team </button></a>
+                </div>
+            }
             <div>
                 <a href="statistics.html"> <button type="button" class="btn btn-dark mr-3">Statistics</button></a>
             </div>
