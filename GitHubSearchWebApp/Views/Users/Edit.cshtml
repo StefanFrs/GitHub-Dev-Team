@@ -1,5 +1,7 @@
 ﻿@model Microsoft.AspNetCore.Identity.IdentityUser
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Edit";
 }
@@ -23,6 +25,32 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+
+                <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="user_checkbox" checked>      
+                        <input class="form-check-input" type="checkbox" value="" id="user_checkbox">
+                    
+                    <label class="form-check-label" for="user_checkbox">
+                        User
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="administrator_checkbox">
+                    <label class="form-check-label" for="administrator_checkbox">
+                        Administrator
+                    </label>
+                </div>
+                <div class="form-check">  
+                        <input class="form-check-input" type="checkbox" value="" id="tlead_checkbox" checked>
+                        <input class="form-check-input" type="checkbox" value="" id="tlead_checkbox">
+                    <label class="form-check-label" for="tlead_checkbox">
+                        Team Leader
+                    </label>
+                </div>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
