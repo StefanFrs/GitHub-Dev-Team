@@ -11,12 +11,14 @@ using GitHubSearchWebApp.Models;
 using GitHubSearchWebApp.Services;
 using GitHubSearchWebApp.Repo;
 using GitHubSearchWebApp.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GitHubSearchWebApp.Controllers
 {
     /// <summary>
     ///   <br />
     /// </summary>
+    [Authorize(Roles ="TeamLead")]
     public class DevelopersController : Controller
     {
         private readonly IExperiencesRepository experiencesRepository;
