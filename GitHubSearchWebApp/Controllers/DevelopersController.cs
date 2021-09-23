@@ -18,7 +18,6 @@ namespace GitHubSearchWebApp.Controllers
     /// <summary>
     ///   <br />
     /// </summary>
-    [Authorize(Roles ="TeamLead")]
     public class DevelopersController : Controller
     {
         private readonly IExperiencesRepository experiencesRepository;
@@ -93,6 +92,7 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
+        [Authorize(Roles = "TeamLead")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -127,6 +127,7 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
+        [Authorize(Roles = "TeamLead")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FullName,GitLogin,Email")] Developer developer)
@@ -166,6 +167,7 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
+        [Authorize(Roles = "TeamLead")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -190,6 +192,7 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
+        [Authorize(Roles = "TeamLead")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,GitLogin,Email")] Developer developer)
@@ -227,6 +230,7 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
+        [Authorize(Roles = "TeamLead")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -249,6 +253,7 @@ namespace GitHubSearchWebApp.Controllers
         /// <returns>
         ///   <br />
         /// </returns>
+        [Authorize(Roles = "TeamLead")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
