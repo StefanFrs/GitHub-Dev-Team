@@ -5,7 +5,7 @@
 @inject UserManager<IdentityUser> UserManager
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://www.cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
+@*<link rel="stylesheet" href="https://www.cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />*@
 <link href="~/css/style.css" rel="stylesheet" type="text/css" />
 <body>
     <header class="site-header d-flex justify-content-between flex-wrap">
@@ -32,32 +32,35 @@
             }
         </div>
     </header>
-    <div class="container">
-        <div class="statistics mt-5">
-            <div id="alerts">
+    <div class="statistics mt-5">
+        <div id="alerts">
 
+        </div>
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <h2 class="text-center statistics-title">Code Written By The Team</h2>
+                <p class="text-center lead mb-5">(Kb)</p>
+                <div id="donut-chart"></div>
             </div>
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                    <h2 class="text-center statistics-title">Code Written By The Team</h2>
-                    <p class="text-center lead mb-5">(Kb)</p>
-                    <div id="donut-chart"></div>
+            <div class="col-md-8 text-center">
+                <h2 class="text-center statistics-title">Activity</h2>
+
+                @*<div class="dropdown text-center">
+                    <button class="btn btn-secondary dropdown-toggle btnTehnology text-center" id="dropdown-technologies" type="button" data-toggle="dropdown-menu" aria-haspopup="true" aria-expanded="false">
+                        Tehnology
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-technologies" id="technologies">
+                    </div>
+                </div>*@
+
+                <div class="dropdown text-center w-75">
+                    <button class="dropbtn w-100">Technologies</button>
+                    <div class="dropdown-content w-100" id="technologies">
+                    
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <h2 class="text-center statistics-title">Activity</h2>
+                <div class="bar-chart" id="displayCharts">
 
-                    <div class="dropdown text-center">
-                        <button class="btn btn-secondary dropdown-toggle btnTehnology text-center" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Tehnology
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="technologies">
-                        </div>
-                    </div>
-
-
-                    <div class="bar-chart" id="displayCharts">
-
-                    </div>
                 </div>
             </div>
         </div>
@@ -67,8 +70,8 @@
     <script src="./lib/microsoft-signalr/signalr.min.js"></script>
     <script src="./js/version.js"></script>
     <script src="./lib/jquery/dist/jquery.min.js"></script>
+    <script src="./lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="./js/popup.js"></script>
-    <script src="./js/search.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -85,4 +88,46 @@
 
 </body>
 
+<style>
+    .dropbtn {
+        background-color: #161b22;
+        color: #f0f6fc;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #0d1117;
+    }
+</style>
 

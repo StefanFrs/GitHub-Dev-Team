@@ -56,25 +56,31 @@ namespace GitHubSearchWebApp.Repo
         public Dictionary<string, string> GetStatisticsByLanguage(string programmingLanguage)
         {
             Dictionary<string, string> developersStatistics = new Dictionary<string, string>();
-            var developers = context.Developer.Include(d => d.Experiences);
             ProgrammingLanguages language = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), programmingLanguage);
-            context.Experience.Include(e => e.Projects);
-            var experiences = context.Experience;
-            foreach (var developer in developers)
+
+            var experiencesDvelopers = context.Developer
+                            .Join(
+                                context.Experience.Include(e => e.Projects),
+                                developer => developer.Id,
+                                experience => experience.DeveloperId,
+                                (developer, experience) => new
+                                {
+                                    ProgrammingLanguage = experience.ProgrammingLanguage,
+                                    FullName = developer.FullName,
+                                    CodeSize = experience.CodeSize,
+                                    ProjectsCount = experience.Projects.Count,
+                                }
+                            )
+                            .ToList();
+
+            foreach (var ed in experiencesDvelopers)
             {
-                var experience = new Experience();
-                foreach (var e in experiences)
+                if (ed.ProgrammingLanguage == language)
                 {
-                    if ( e.ProgrammingLanguage == language && e.DeveloperId == developer.Id)
-                    {
-                        experience = e;
-                    }
-                }
-                if (experience != null)
-                {
-                    developersStatistics.Add(developer.FullName, experience.CodeSize + " " + experience.Projects.Count);
+                    developersStatistics.Add(ed.FullName, ed.CodeSize + " " + ed.ProjectsCount);
                 }
             }
+
             return developersStatistics;
         }
 

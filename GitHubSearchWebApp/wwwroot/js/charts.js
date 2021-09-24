@@ -17,7 +17,6 @@ function donutChart() {
     $.ajax(statisticsLanguages).done(function (languages) {
         var statisticsArray = [];
         for (language in languages) {
-            console.log(language + " " + languages[language])
             let languageTranslated = language.replace("Plus", "+").replace("Plus", "+").replace("Sharp", "#");
             statisticsArray.push({ label: languageTranslated, value: languages[language] });
 

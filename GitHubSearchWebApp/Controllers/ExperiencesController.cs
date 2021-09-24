@@ -84,8 +84,17 @@ namespace GitHubSearchWebApp.Controllers
         [HttpGet("statistics/{language}"), ActionName("GetStatistics")]
         public async Task<IActionResult> GetStatistics(string language)
         {
-            Dictionary<string, string> developersStatistics = experiencesRepository.GetStatisticsByLanguage(language);
-            return Ok(developersStatistics);
+            try
+            {
+                Dictionary<string, string> developersStatistics = experiencesRepository.GetStatisticsByLanguage(language);
+                return Ok(developersStatistics);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return BadRequest();
         }
 
 
