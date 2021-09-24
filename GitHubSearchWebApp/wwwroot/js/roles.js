@@ -1,6 +1,7 @@
 ﻿var usersRoles = [];
+var usersRolesUpdated = [];
 
-window.addEventListener("load", function () {
+function getUsersRoles(usersRolesParam) {
     var roleInputs = this.document.getElementsByClassName("role");
     for (var i = 0; i < roleInputs.length; i++) {
         var user = {
@@ -9,10 +10,10 @@ window.addEventListener("load", function () {
             isAdministrator: 0,
             isTeamLead: 0,
         }
-        usersRoles[user.userId] = user;
+        usersRolesParam[user.userId] = user;
     }
     for (var i = 0; i < roleInputs.length; i++) {
-        let user = usersRoles[roleInputs[i].id];
+        let user = usersRolesParam[roleInputs[i].id];
         if (roleInputs[i].checked) {
             console.log(roleInputs[i].value);
             if (roleInputs[i].value == "User") {
@@ -25,7 +26,17 @@ window.addEventListener("load", function () {
                 user.isTeamLead = 1;
             }
         }
-        usersRoles[user.userId] = user;
+        usersRolesParam[user.userId] = user;
     }
-    console.log(usersRoles);
+}
+
+window.addEventListener("load", function () {
+    getUsersRoles(usersRoles);
 });
+
+document.getElementById("updateRoles").addEventListener("click", function () {
+    console.log("Roles updated");
+    getUsersRoles(usersRolesUpdated);
+    console.log(`Roles before update ${usersRoles}`);
+    console.log(`Roles after update ${usersRolesUpdated}`);
+})
