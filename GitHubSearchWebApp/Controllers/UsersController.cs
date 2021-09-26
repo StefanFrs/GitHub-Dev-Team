@@ -120,7 +120,7 @@ namespace GitHubSearchWebApp.Controllers
         }
 
         [HttpPut("updateRoles")]
-        public IActionResult Update([FromBody] JsonElement userRoles)
+        public async Task<IActionResult> Update([FromBody] JsonElement userRoles)
         {
             var id = userRoles.GetProperty("id").GetString();
             var user = userManager.FindByIdAsync(id).GetAwaiter().GetResult();
@@ -134,8 +134,37 @@ namespace GitHubSearchWebApp.Controllers
                 try
                 {
                     Console.WriteLine(userRoles.GetProperty("isUser").GetInt32());
+                    var isUser = userRoles.GetProperty("isUser").GetInt32();
+                    if (userManager.IsInRoleAsync(user, "User").GetAwaiter().GetResult() && isUser == 0)
+                    {
+                        await userManager.RemoveFromRoleAsync(user, "User");
+                    }
+                    else if (!userManager.IsInRoleAsync(user, "User").GetAwaiter().GetResult() && isUser == 1)
+                    {
+                        await userManager.AddToRoleAsync(user, "User");
+                    }
+
+                    var isTeamLead = userRoles.GetProperty("isTeamLead").GetInt32();
                     Console.WriteLine(userRoles.GetProperty("isTeamLead").GetInt32());
+                    if (userManager.IsInRoleAsync(user, "TeamLead").GetAwaiter().GetResult() && isTeamLead == 0)
+                    {
+                        await userManager.RemoveFromRoleAsync(user, "TeamLead");
+                    }
+                    else if (!userManager.IsInRoleAsync(user, "TeamLead").GetAwaiter().GetResult() && isTeamLead == 1)
+                    {
+                        await userManager.AddToRoleAsync(user, "TeamLead");
+                    }
+
                     Console.WriteLine(userRoles.GetProperty("isAdministrator").GetInt32());
+                    var isAdministrator = userRoles.GetProperty("isAdministrator").GetInt32();
+                    if (userManager.IsInRoleAsync(user, "Administrator").GetAwaiter().GetResult() && isAdministrator == 0)
+                    {
+                        await userManager.RemoveFromRoleAsync(user, "Administrator");
+                    }
+                    else if (!userManager.IsInRoleAsync(user, "Administrator").GetAwaiter().GetResult() && isAdministrator == 1)
+                    {
+                        await userManager.AddToRoleAsync(user, "Administrator");
+                    }
 
                 }
                 catch (DbUpdateConcurrencyException)
