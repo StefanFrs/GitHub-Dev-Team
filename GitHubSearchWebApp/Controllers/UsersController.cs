@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GitHubSearchWebApp.Data;
 using GitHubSearchWebApp.Models;
+using System.Text.Json;
 
 namespace GitHubSearchWebApp.Controllers
 {
@@ -116,6 +117,41 @@ namespace GitHubSearchWebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
+        }
+
+        [HttpPut("updateRoles")]
+        public IActionResult Update([FromBody] JsonElement userRoles)
+        {
+            var id = userRoles.GetProperty("id").GetString();
+            var user = userManager.FindByIdAsync(id).GetAwaiter().GetResult();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Console.WriteLine(userRoles.GetProperty("isUser").GetInt32());
+                    Console.WriteLine(userRoles.GetProperty("isTeamLead").GetInt32());
+                    Console.WriteLine(userRoles.GetProperty("isAdministrator").GetInt32());
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(user.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return Ok();
+            }
+            return Ok();
         }
 
         // GET: Users/Delete/5

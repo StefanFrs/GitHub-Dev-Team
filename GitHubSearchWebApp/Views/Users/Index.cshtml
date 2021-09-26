@@ -56,63 +56,15 @@
 </table>
 <h2 class="font-weight-lighter mt-5 mb-2 assign-roles">Assign Roles</h2>
 <div class="row roles py-4 px-3">
-    <div class="col-4">
-        <h4 class="font-weight-light">Users are:</h4>
-        @foreach (var user in Model)
-        {
-            @if (UserManager.IsInRoleAsync(user, "User").GetAwaiter().GetResult())
-            {
-                <div class="form-check">
-                    <input class="input role" type="checkbox" userRole="User" value="User" id="@user.Id" checked>
-                    <label class="form-check-label" for="@user.Id">
-                        @user.UserName
-                    </label>
-                </div>
-            }
-            else
-            {
-                <div class="form-check">
-                    <input class="input role" type="checkbox" value="" id="@user.Id">
-                    <label class="form-check-label" for="@user.Id">
-                        @user.UserName
-                    </label>
-                </div>
-            }
-        }
-    </div>
-    <div class="col-4">
-        <h4 class="font-weight-light">Team Leaders are:</h4>
-        @foreach (var user in Model)
-        {
-            @if (UserManager.IsInRoleAsync(user, "TeamLead").GetAwaiter().GetResult())
-            {
-                <div class="form-check">
-                    <input class="input role" type="checkbox" userRole="TeamLead" value="TeamLead" id="@user.Id" checked>
-                    <label class="form-check-label" for="@user.Id">
-                        @user.UserName
-                    </label>
-                </div>
-            }
-            else
-            {
-                <div class="form-check">
-                    <input class="input role" type="checkbox" value="" id="@user.Id">
-                    <label class="form-check-label" for="@user.Id">
-                        @user.UserName
-                    </label>
-                </div>
-            }
-        }
-    </div>
-    <div class="col-4">
-        <h4 class="font-weight-light">Administrators are:</h4>
-        <div>
+    <form id="rolesForm">
+        <div class="col-4">
+            <h4 class="font-weight-light">Users are:</h4>
             @foreach (var user in Model)
             {
-                @if (UserManager.IsInRoleAsync(user, "Administrator").GetAwaiter().GetResult())
+                @if (UserManager.IsInRoleAsync(user, "User").GetAwaiter().GetResult())
                 {
                     <div class="form-check">
-                        <input class="input role" type="checkbox" userRole="Administrator" value="Administrator" id="@user.Id" checked>
+                        <input class="input role" type="checkbox" userRole="User" value="User" id="@user.Id" checked>
                         <label class="form-check-label" for="@user.Id">
                             @user.UserName
                         </label>
@@ -121,7 +73,7 @@
                 else
                 {
                     <div class="form-check">
-                        <input class="input role" type="checkbox" value="" id="@user.Id">
+                        <input class="input role" type="checkbox" value="User" id="@user.Id">
                         <label class="form-check-label" for="@user.Id">
                             @user.UserName
                         </label>
@@ -129,11 +81,63 @@
                 }
             }
         </div>
-    </div>
+        <div class="col-4">
+            <h4 class="font-weight-light">Team Leaders are:</h4>
+            @foreach (var user in Model)
+            {
+                @if (UserManager.IsInRoleAsync(user, "TeamLead").GetAwaiter().GetResult())
+                {
+                    <div class="form-check">
+                        <input class="input role" type="checkbox" userRole="TeamLead" value="TeamLead" id="@user.Id" checked>
+                        <label class="form-check-label" for="@user.Id">
+                            @user.UserName
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-check">
+                        <input class="input role" type="checkbox" value="TeamLead" id="@user.Id">
+                        <label class="form-check-label" for="@user.Id">
+                            @user.UserName
+                        </label>
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-4">
+            <h4 class="font-weight-light">Administrators are:</h4>
+            <div>
+                @foreach (var user in Model)
+                {
+                    @if (UserManager.IsInRoleAsync(user, "Administrator").GetAwaiter().GetResult())
+                    {
+                        <div class="form-check">
+                            <input class="input role" type="checkbox" userRole="Administrator" value="Administrator" id="@user.Id" checked>
+                            <label class="form-check-label" for="@user.Id">
+                                @user.UserName
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-check">
+                            <input class="input role" type="checkbox" value="Administrator" id="@user.Id">
+                            <label class="form-check-label" for="@user.Id">
+                                @user.UserName
+                            </label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="row text-center">
+            @*<button type="submit" class="btn btn-dark mr-3 mt-3" id="updateRoles" form="rolesForm">Update Roles</button>*@
+            <input type="submit" class="btn btn-dark mr-3 mt-3" id="updateRoles" form="rolesForm">Update Roles</input>
+        </div>
+    </form>
 </div>
-<div class="row text-center">
-    <button type="button" class="btn btn-dark mr-3 mt-3" id="updateRoles">Update Roles</button>
-</div>
+
 <style>
     h3, td, th {
         color: white !important;
