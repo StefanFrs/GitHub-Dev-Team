@@ -5,7 +5,7 @@ var allSettings = {
         "method": "GET",
         "timeout": 0,
         "headers": {
-            "Authorization": "Bearer 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"
+            "Authorization": "Bearer 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"
         },
     },
     putTypeSettings : {

@@ -1,5 +1,6 @@
 ﻿var usersRoles = [];
 var usersRolesUpdated = [];
+var usersIdKey = new Set(); 
 
 function getUsersRoles(usersRolesParam) {
     var roleInputs = this.document.getElementsByClassName("role");
@@ -27,45 +28,34 @@ function getUsersRoles(usersRolesParam) {
             }
         }
         usersRolesParam[user.userId] = user;
+        usersIdKey.add(user.userId);
     }
 }
-
-//document.getElementsByClassName("role").addEventListener("change", function (event) {
-//    console.log("checked" + " " + event.target.id)
-//    event.target.checked = true;
-//});
-
-//document.getElementsByClassName("role").addEventListener("input", function (event) {
-//    console.log("checked" + " " + event.target.id)
-//    event.target.checked = true;
-//});
 
 window.addEventListener("load", function () {
     getUsersRoles(usersRoles);
 });
 
 
+
+
 document.getElementById("rolesForm").addEventListener("submit", function () {
-    event.preventDefault();
     console.log("Roles updated");
     getUsersRoles(usersRolesUpdated);
     console.log(`Roles before update ${usersRoles}`);
     console.log(`Roles after update ${usersRolesUpdated}`);
-    updateUserRoles();
-
+    console.log(usersRolesUpdated);
+    console.log(usersIdKey);
+    usersIdKey.forEach(userKey => updateUserRoles(usersRolesUpdated[userKey]));
+    window.history.forward(1);
 });
 
-function updateUserRoles() {
+function updateUserRoles(userUpdated) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Cookie", ".AspNetCore.Antiforgery.87tdcVOTNOU=CfDJ8FLYrQrO7-hGqFCarwSqqPzsUO-doVUOX-B1HmoO1f0Ezq0GeEJcRLipZKT2_UO2k2R6Q7vjjbJQMYlMz82jh88C-K_kbufuNVk_foNzsiZp8sN6U2ZVYdsvFzvkdk1Qc1KcvDOqW9bwo-WiV6qcCOQ");
 
-    var raw = JSON.stringify({
-        "id": "cae6246c-a34b-493e-83e6-42aad5ba830c",
-        "isUser": 1,
-        "isTeamLead": 1,
-        "isAdministrator": 0
-    });
+    var raw = JSON.stringify(userUpdated);
 
     var requestOptions = {
         method: 'PUT',

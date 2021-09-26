@@ -26,6 +26,7 @@ namespace GitHubSearchWebApp.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
+            await AssignUserRoles();
             var users = await userManager.Users.ToListAsync();
             return View(users);
         }
@@ -122,7 +123,7 @@ namespace GitHubSearchWebApp.Controllers
         [HttpPut("updateRoles")]
         public async Task<IActionResult> Update([FromBody] JsonElement userRoles)
         {
-            var id = userRoles.GetProperty("id").GetString();
+            var id = userRoles.GetProperty("userId").GetString();
             var user = userManager.FindByIdAsync(id).GetAwaiter().GetResult();
             if (user == null)
             {
@@ -214,6 +215,15 @@ namespace GitHubSearchWebApp.Controllers
         private bool UserExists(string id)
         {
             return userManager.Users.Any(e => e.Id == id);
+        }
+
+        private async Task AssignUserRoles()
+        {
+            var usersList = userManager.Users.ToList();
+            foreach (var user in usersList)
+            {
+                await userManager.AddToRoleAsync(user, "User");
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace GitHubSearchWebApp.UserManagement
                 var adminRole = await EnsureRoleCreated(serviceScope.ServiceProvider, "Administrator");
                 var teamLeadRole = await EnsureRoleCreated(serviceScope.ServiceProvider, "TeamLead");
                 var userRole = await EnsureRoleCreated(serviceScope.ServiceProvider, "User");
+                
             }
         }
 
@@ -32,5 +33,7 @@ namespace GitHubSearchWebApp.UserManagement
 
             return newRole;
         }
+
+        
     }
 }

@@ -46,6 +46,7 @@ namespace GitHubSearchWebApp
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
+                .AddUserManager<UserManager<IdentityUser>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddControllers();
