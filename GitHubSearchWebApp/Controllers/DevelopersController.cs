@@ -18,6 +18,7 @@ namespace GitHubSearchWebApp.Controllers
     /// <summary>
     ///   <br />
     /// </summary>
+    [Authorize(Roles = "User")]
     public class DevelopersController : Controller
     {
         private readonly IExperiencesRepository experiencesRepository;
