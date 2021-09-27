@@ -113,12 +113,24 @@
                     {
                         @if (UserManager.IsInRoleAsync(user, "Administrator").GetAwaiter().GetResult())
                         {
-                            <div class="form-check">
-                                <input class="input role" type="checkbox" userRole="Administrator" value="Administrator" id="@user.Id" checked>
-                                <label class="form-check-label" for="@user.Id">
-                                    @user.UserName
-                                </label>
-                            </div>
+                            @if (UserManager.GetUserId(User) == user.Id)
+                            {
+                                <div class="form-check">
+                                    <input class="input role" type="checkbox" userRole="Administrator" disabled value="Administrator" id="@user.Id" checked>
+                                    <label class="form-check-label" for="@user.Id">
+                                        @user.UserName
+                                    </label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-check">
+                                    <input class="input role" type="checkbox" userRole="Administrator" value="Administrator" id="@user.Id" checked>
+                                    <label class="form-check-label" for="@user.Id">
+                                        @user.UserName
+                                    </label>
+                                </div>
+                            }
                         }
                         else
                         {
